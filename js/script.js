@@ -1,19 +1,21 @@
-const recipts = [];
 const reciptsDays = [];
-const category = ["Bio", "Végétarien", "Classique"];
+const reciptsItems = [];
+
+const QUALITATIF_LIST = ["Bio", "Végétarien", "Classique"];
+const CATEGORY_LIST = ["Entrée", "Plat Principal", "Dessert"]
 
 let reciptEditSelect;
 
 function getReciptsObjectByID(id) {
-    for (let i=0; i<recipts.length; i++) {
-        if (recipts[i].id === id) return recipts[i];
+    for (let i=0; i<reciptsItems.length; i++) {
+        if (reciptsItems[i].id === id) return reciptsItems[i];
     }
 }
 
 function deleteReciptsObjectByID(id) {
-    for (let i=0; i<recipts.length; i++) {
-        if (recipts[i].id === id) {
-            recipts.splice(i, 1);
+    for (let i=0; i<reciptsItems.length; i++) {
+        if (reciptsItems[i].id === id) {
+            reciptsItems.splice(i, 1);
             return true
         }
     }
@@ -29,7 +31,8 @@ function togglePopout() {
     document.getElementById("btn-create-recipt").textContent = "Create Recipe Reserve";
     document.getElementById("input-recip-name").value = "";
     document.getElementById("input-recip-price").value = "";
-    document.getElementById("select-recip-category").selectedIndex = 0;
+    document.getElementById("select-recip-qualitatif").selectedIndex = 0;
+    document.getElementById("select-recip-categorie").selectedIndex = 0;
 
 }
 
@@ -38,10 +41,12 @@ function toggleDaysPopout() {
     const menu = document.getElementById("popout-days");
     menu.classList.toggle("hidden");
 
-    const categoryList = document.getElementById("select-days-recip-category");
-    for (let value of recipts) {
+    const qualitatifList = document.getElementById("select-days-recip-qualitatif");
+    qualitatifList.innerHTML = ``
+
+    for (let value of reciptsItems) {
         if (value.status)
-            categoryList.innerHTML += `<option id="${value.id}"> <strong>Name: </strong>${value.name} | <strong>Category:</strong> ${category[value.category]}</option>`;
+            qualitatifList.innerHTML += `<option id="${value.id}"> <strong>Name: </strong>${value.name} | <strong>Qualitatif:</strong> ${QUALITATIF_LIST[value.qualitatif - 1]}</option>`;
     }
 
 }
@@ -50,13 +55,28 @@ function renderRecipeCard(recipe) {
     return `
         <div id="${recipe.id}" class="card-wrapper p-4 rounded-md border" style="background-color: #1E293B; border-color: #334155;">
             <h4 class="text-xl font-bold mb-2.5">${recipe.name}</h4>
-            <p class="text-gray-400"><strong class="text-white font-bold">Category: </strong>${category[recipe.category - 1]}</p>
+            <p class="text-gray-400"><strong class="text-white font-bold">Qualitatif: </strong>${QUALITATIF_LIST[recipe.qualitatif - 1]}</p>
+            <p class="text-gray-400"><strong class="text-white font-bold">Categorie: </strong>${CATEGORY_LIST[recipe.categorie - 1]}</p>
             <p class="text-gray-400"><strong class="text-white font-bold">Price: </strong>${recipe.price} DH</p>
             <p class="text-gray-400"><strong class="text-white font-bold">Status: </strong>${recipe.status ? "Available" : "Already Selected"}</p>
             <div class="flex justify-center-safe mt-4 gap-2">
                 <button class="btn-recipt-edit flex-7 bg-blue-400 hover:bg-blue-300 w-full rounded-md p-1 cursor-pointer">Edit</button>
                 <button class="btn-recipt-delete flex-3 bg-red-600 hover:bg-red-500 w-full rounded-md p-1 cursor-pointer">Delete</button>
             </div>
+        </div>
+    `;
+}
+
+function renderRecipeCardEdited(recipe) {
+    return `
+        <h4 class="text-xl font-bold mb-2.5">${recipe.name}</h4>
+        <p class="text-gray-400"><strong class="text-white font-bold">Qualitatif: </strong>${QUALITATIF_LIST[recipe.qualitatif - 1]}</p>
+        <p class="text-gray-400"><strong class="text-white font-bold">Categorie: </strong>${CATEGORY_LIST[recipe.categorie - 1]}</p>
+        <p class="text-gray-400"><strong class="text-white font-bold">Price: </strong>${recipe.price} DH</p>
+        <p class="text-gray-400"><strong class="text-white font-bold">Status: </strong>${recipe.status ? "Available" : "Already Selected"}</p>
+        <div class="flex justify-center-safe mt-4 gap-2">
+            <button class="btn-recipt-edit flex-7 bg-blue-400 hover:bg-blue-300 w-full rounded-md p-1 cursor-pointer">Edit</button>
+            <button class="btn-recipt-delete flex-3 bg-red-600 hover:bg-red-500 w-full rounded-md p-1 cursor-pointer">Delete</button>
         </div>
     `;
 }
@@ -81,10 +101,17 @@ button_create_recipt.addEventListener("click", function(event) {
         return false;
     }
 
-    const select_recipt_category = document.getElementById("select-recip-category");
-    if (select_recipt_category.selectedIndex === 0) {
+    const select_recipt_qualitatif = document.getElementById("select-recip-qualitatif");
+    if (select_recipt_qualitatif.selectedIndex === 0) {
         document.getElementById("span-recipt-notification").classList.remove("hidden");
-        document.getElementById("span-recipt-notification").textContent = "Pelase select valid category !";
+        document.getElementById("span-recipt-notification").textContent = "Pelase select valid qualitatif !";
+        return false;
+    }
+    
+    const select_recipt_categorie = document.getElementById("select-recip-categorie");
+    if (select_recipt_categorie.selectedIndex === 0) {
+        document.getElementById("span-recipt-notification").classList.remove("hidden");
+        document.getElementById("span-recipt-notification").textContent = "Pelase select valid categorie !";
         return false;
     }
 
@@ -94,22 +121,24 @@ button_create_recipt.addEventListener("click", function(event) {
 
         recipesObject.name = String(input_recipt_name.value);
         recipesObject.price = Number(input_recipt_price.value);
-        recipesObject.category = Number(select_recipt_category.selectedIndex);
+        recipesObject.qualitatif = Number(select_recipt_qualitatif.selectedIndex);
+        recipesObject.categorie = Number(select_recipt_categorie.selectedIndex);
 
-        const container = document.getElementById("recipes-grid");
-        container.innerHTML = renderRecipeCard(recipesObject);
+        const container = document.getElementById(reciptEditSelect.id);
+        container.innerHTML = renderRecipeCardEdited(recipesObject);
 
     } else {
 
         const reciptCache = {
             id: crypto.randomUUID(),
             name: String(input_recipt_name.value),
-            category: Number(select_recipt_category.selectedIndex),
+            qualitatif: Number(select_recipt_qualitatif.selectedIndex),
+            categorie: Number(select_recipt_categorie.selectedIndex),
             price: Number(input_recipt_price.value),
             status: true
         }
 
-        recipts.push(reciptCache);
+        reciptsItems.push(reciptCache);
 
         const container = document.getElementById("recipes-grid");
         container.innerHTML += renderRecipeCard(reciptCache);
@@ -136,7 +165,8 @@ container_recipes.addEventListener("click", function(event) {
         const recipesObject = getReciptsObjectByID(card.id);
         document.getElementById("input-recip-name").value = recipesObject.name;
         document.getElementById("input-recip-price").value = recipesObject.price;
-        document.getElementById("select-recip-category").selectedIndex = recipesObject.category;
+        document.getElementById("select-recip-qualitatif").selectedIndex = recipesObject.qualitatif;
+        document.getElementById("select-recip-categorie").selectedIndex = recipesObject.categorie;
 
         reciptEditSelect = card;
 
@@ -172,7 +202,7 @@ button_selectDay_recipt.addEventListener("click", function(event) {
 
     event.preventDefault();
 
-    const select_reciptDay = document.getElementById("select-days-recip-category");
+    const select_reciptDay = document.getElementById("select-days-recip-qualitatif");
     if (!select_reciptDay) return false;
 
 })

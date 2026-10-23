@@ -65,11 +65,18 @@
                             <input id="input-recip-name" class="font-semibold p-2 mt-1 rounded-md bg-gray-700" type="text" placeholder="Name" minlength="3" maxlength="30" pattern=".{3,30}" required>
                             <input id="input-recip-price" class="font-semibold p-2 mt-3 rounded-md bg-gray-700" type="number" min="1" step="1" placeholder="Price" required>
 
-                            <select id="select-recip-category" class="bg font-semibold rounded-md mt-3 h-10 p-2 bg-gray-700" required>
-                                <option disabled selected>Please choose category</option>
+                            <select id="select-recip-qualitatif" class="bg font-semibold rounded-md mt-3 h-10 p-2 bg-gray-700" required>
+                                <option disabled selected>Please choose Qualitatif</option>
                                 <option>Bio</option>
                                 <option>Végétarien</option>
                                 <option>Classique</option>
+                            </select>
+
+                            <select id="select-recip-categorie" class="bg font-semibold rounded-md mt-3 h-10 p-2 bg-gray-700" required>
+                                <option disabled selected>Please choose Categorie</option>
+                                <option>Entrée</option>
+                                <option>Plat Principal</option>
+                                <option>Dessert</option>
                             </select>
 
                             <div class="flex">
@@ -118,7 +125,7 @@
 
                             <span id="span-days-recipt-notification" class="hidden font-semibold mb-2 text-red-500"></span>
 
-                            <select id="select-days-recip-category" class="bg font-semibold rounded-md mt-1 h-10 p-2 bg-gray-700" required>
+                            <select id="select-days-recip-qualitatif" class="bg font-semibold rounded-md mt-1 h-10 p-2 bg-gray-700" required>
                                 <option disabled selected>Please choose recipt</option>
                             </select>
 
