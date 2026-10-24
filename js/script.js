@@ -4,7 +4,7 @@ const reciptsItems = [];
 const QUALITATIF_LIST = ["Bio", "Végétarien", "Classique"];
 const CATEGORY_LIST = ["Entrée", "Plat Principal", "Dessert"]
 
-let reciptEditSelect;
+let reciptEditSelect, reciptDaysSelect;
 
 function getReciptsObjectByID(id) {
     for (let i=0; i<reciptsItems.length; i++) {
@@ -16,7 +16,7 @@ function deleteReciptsObjectByID(id) {
     for (let i=0; i<reciptsItems.length; i++) {
         if (reciptsItems[i].id === id) {
             reciptsItems.splice(i, 1);
-            return true
+            return true;
         }
     }
 }
@@ -32,22 +32,29 @@ function togglePopout() {
     document.getElementById("input-recip-name").value = "";
     document.getElementById("input-recip-price").value = "";
     document.getElementById("select-recip-qualitatif").selectedIndex = 0;
-    document.getElementById("select-recip-categorie").selectedIndex = 0;
+    document.getElementById("select-recip-category").selectedIndex = 0;
 
 }
 
-function toggleDaysPopout() {
+function toggleDaysPopout(categoryID) {
     
     const menu = document.getElementById("popout-days");
     menu.classList.toggle("hidden");
 
+    if (!categoryID) return false;
+
     const qualitatifList = document.getElementById("select-days-recip-qualitatif");
     qualitatifList.innerHTML = ``
 
+    let count = 0;
     for (let value of reciptsItems) {
-        if (value.status)
-            qualitatifList.innerHTML += `<option id="${value.id}"> <strong>Name: </strong>${value.name} | <strong>Qualitatif:</strong> ${QUALITATIF_LIST[value.qualitatif - 1]}</option>`;
+        if (value.status && value.category == categoryID) {
+            qualitatifList.innerHTML += `<option id="${value.id}"> <strong>Name: </strong>${value.name} | <strong>Qualitatif:</strong> ${QUALITATIF_LIST[value.qualitatif - 1]} | <strong>${value.price} DH</strong></option>`;
+            count++
+        }
     }
+
+    if (count===0) qualitatifList.innerHTML += `<option>Please craete recipts first !</option>`;
 
 }
 
@@ -56,7 +63,7 @@ function renderRecipeCard(recipe) {
         <div id="${recipe.id}" class="card-wrapper p-4 rounded-md border" style="background-color: #1E293B; border-color: #334155;">
             <h4 class="text-xl font-bold mb-2.5">${recipe.name}</h4>
             <p class="text-gray-400"><strong class="text-white font-bold">Qualitatif: </strong>${QUALITATIF_LIST[recipe.qualitatif - 1]}</p>
-            <p class="text-gray-400"><strong class="text-white font-bold">Categorie: </strong>${CATEGORY_LIST[recipe.categorie - 1]}</p>
+            <p class="text-gray-400"><strong class="text-white font-bold">Category: </strong>${CATEGORY_LIST[recipe.category - 1]}</p>
             <p class="text-gray-400"><strong class="text-white font-bold">Price: </strong>${recipe.price} DH</p>
             <p class="text-gray-400"><strong class="text-white font-bold">Status: </strong>${recipe.status ? "Available" : "Already Selected"}</p>
             <div class="flex justify-center-safe mt-4 gap-2">
@@ -71,7 +78,7 @@ function renderRecipeCardEdited(recipe) {
     return `
         <h4 class="text-xl font-bold mb-2.5">${recipe.name}</h4>
         <p class="text-gray-400"><strong class="text-white font-bold">Qualitatif: </strong>${QUALITATIF_LIST[recipe.qualitatif - 1]}</p>
-        <p class="text-gray-400"><strong class="text-white font-bold">Categorie: </strong>${CATEGORY_LIST[recipe.categorie - 1]}</p>
+        <p class="text-gray-400"><strong class="text-white font-bold">Category: </strong>${CATEGORY_LIST[recipe.category - 1]}</p>
         <p class="text-gray-400"><strong class="text-white font-bold">Price: </strong>${recipe.price} DH</p>
         <p class="text-gray-400"><strong class="text-white font-bold">Status: </strong>${recipe.status ? "Available" : "Already Selected"}</p>
         <div class="flex justify-center-safe mt-4 gap-2">
@@ -108,10 +115,10 @@ button_create_recipt.addEventListener("click", function(event) {
         return false;
     }
     
-    const select_recipt_categorie = document.getElementById("select-recip-categorie");
-    if (select_recipt_categorie.selectedIndex === 0) {
+    const select_recipt_category = document.getElementById("select-recip-category");
+    if (select_recipt_category.selectedIndex === 0) {
         document.getElementById("span-recipt-notification").classList.remove("hidden");
-        document.getElementById("span-recipt-notification").textContent = "Pelase select valid categorie !";
+        document.getElementById("span-recipt-notification").textContent = "Pelase select valid category !";
         return false;
     }
 
@@ -122,7 +129,7 @@ button_create_recipt.addEventListener("click", function(event) {
         recipesObject.name = String(input_recipt_name.value);
         recipesObject.price = Number(input_recipt_price.value);
         recipesObject.qualitatif = Number(select_recipt_qualitatif.selectedIndex);
-        recipesObject.categorie = Number(select_recipt_categorie.selectedIndex);
+        recipesObject.category = Number(select_recipt_category.selectedIndex);
 
         const container = document.getElementById(reciptEditSelect.id);
         container.innerHTML = renderRecipeCardEdited(recipesObject);
@@ -133,7 +140,7 @@ button_create_recipt.addEventListener("click", function(event) {
             id: crypto.randomUUID(),
             name: String(input_recipt_name.value),
             qualitatif: Number(select_recipt_qualitatif.selectedIndex),
-            categorie: Number(select_recipt_categorie.selectedIndex),
+            category: Number(select_recipt_category.selectedIndex),
             price: Number(input_recipt_price.value),
             status: true
         }
@@ -166,7 +173,7 @@ container_recipes.addEventListener("click", function(event) {
         document.getElementById("input-recip-name").value = recipesObject.name;
         document.getElementById("input-recip-price").value = recipesObject.price;
         document.getElementById("select-recip-qualitatif").selectedIndex = recipesObject.qualitatif;
-        document.getElementById("select-recip-categorie").selectedIndex = recipesObject.categorie;
+        document.getElementById("select-recip-category").selectedIndex = recipesObject.category;
 
         reciptEditSelect = card;
 
@@ -180,29 +187,39 @@ container_recipes.addEventListener("click", function(event) {
 const container_days = document.getElementById("container-days");
 container_days.addEventListener("click", function(event) {
 
-    const button = event.target.closest("button[data-day]");
-    if (!button) return false;
+    const container_recipt_days = event.target.closest("[data-day]");
+    if (!container_recipt_days) return false;
 
-    toggleDaysPopout()
-
-    // const day = button.dataset.day;
-    // const meal = button.dataset.meal;
-
-    // reciptsDays[day] = {};
-    // reciptsDays[day][meal] = {};
-    
-    // reciptsDays[day][meal] = "Hello World";
-
-    // console.log(days);
+    // btn_select_day_recipt_submit = document.getElementById("btn-select-day-recipt-submit");
+    // btn_select_day_recipt_submit.addEventListener("click", function() {
+    //     toggleDaysPopout(Number(container_recipt_days.dataset.category))
+    // })
 
 });
 
-const button_selectDay_recipt = document.getElementById("btn-select-day-recipt");
-button_selectDay_recipt.addEventListener("click", function(event) {
+// const button_selectDay_recipt = document.getElementById("btn-select-day-recipt");
+// button_selectDay_recipt.addEventListener("click", function(event) {
 
-    event.preventDefault();
+//     event.preventDefault();
 
-    const select_reciptDay = document.getElementById("select-days-recip-qualitatif");
-    if (!select_reciptDay) return false;
+//     const select_reciptDay = document.getElementById("select-days-recip-qualitatif");
+//     if (!select_reciptDay) return false;
 
-})
+    // const reciptID = select_reciptDay.options[select_reciptDay.selectedIndex].id;
+    // const selectedDay = reciptDaysSelect.day, selectedCategory = reciptDaysSelect.category;
+
+    // const reciptObject = getReciptsObjectByID(reciptID);
+
+    // reciptsDays.push({
+    //     id: crypto.randomUUID(),
+    //     reciptID: reciptID,
+    //     day: selectedDay,
+    //     category: Number(selectedCategory),
+    //     qualitatif: reciptObject.qualitatif
+    // })
+
+    // document.querySelectorAll("[data-day]").forEach(card => {
+
+    // });
+
+// })
