@@ -184,42 +184,67 @@ container_recipes.addEventListener("click", function(event) {
 
 });
 
+let activeDay = null;
+let activeCategory = null;
+
 const container_days = document.getElementById("container-days");
 container_days.addEventListener("click", function(event) {
+    
+    const selectButton = event.target.closest("button");
+    if (!selectButton) return;
 
-    const container_recipt_days = event.target.closest("[data-day]");
-    if (!container_recipt_days) return false;
+    const container_recipt_days = selectButton.closest("[data-day]");
+    if (!container_recipt_days) return;
 
-    // btn_select_day_recipt_submit = document.getElementById("btn-select-day-recipt-submit");
-    // btn_select_day_recipt_submit.addEventListener("click", function() {
-    //     toggleDaysPopout(Number(container_recipt_days.dataset.category))
-    // })
+    activeDay = container_recipt_days.dataset.day;
+    activeCategory = Number(container_recipt_days.dataset.category);
+
+    document.querySelectorAll("[data-day]").forEach(el => el.classList.remove("cache-days-selected"));
+    container_recipt_days.classList.add("cache-days-selected");
+
+    toggleDaysPopout(activeCategory + 1);
 
 });
 
-// const button_selectDay_recipt = document.getElementById("btn-select-day-recipt");
-// button_selectDay_recipt.addEventListener("click", function(event) {
+const button_selectDay_recipt = document.getElementById("btn-select-day-recipt");
+button_selectDay_recipt.addEventListener("click", function(event) {
+    
+    event.preventDefault();
 
-//     event.preventDefault();
+    const select_reciptDay = document.getElementById("select-days-recip-qualitatif");
+    if (!select_reciptDay) return false;
 
-//     const select_reciptDay = document.getElementById("select-days-recip-qualitatif");
-//     if (!select_reciptDay) return false;
+    const reciptID = select_reciptDay.options[select_reciptDay.selectedIndex].id;
+    const reciptObject = getReciptsObjectByID(reciptID);
 
-    // const reciptID = select_reciptDay.options[select_reciptDay.selectedIndex].id;
-    // const selectedDay = reciptDaysSelect.day, selectedCategory = reciptDaysSelect.category;
+    if (!reciptObject) return false;
 
-    // const reciptObject = getReciptsObjectByID(reciptID);
+    reciptsDays.push({
+        id: crypto.randomUUID(),
+        reciptID: reciptID,
+        day: activeDay,
+        category: activeCategory,
+        qualitatif: reciptObject.qualitatif
+    });
 
-    // reciptsDays.push({
-    //     id: crypto.randomUUID(),
-    //     reciptID: reciptID,
-    //     day: selectedDay,
-    //     category: Number(selectedCategory),
-    //     qualitatif: reciptObject.qualitatif
-    // })
+    document.querySelectorAll("[data-day]").forEach(card => {
 
-    // document.querySelectorAll("[data-day]").forEach(card => {
+        if (card.dataset.day === activeDay && Number(card.dataset.category) === activeCategory) {
 
-    // });
+            const name = card.querySelector("p.font-medium");
+            const qualitatif = card.querySelector("p.text-slate-400");
+            const price = card.querySelector("p.text-green-600");
 
-// })
+            if (name) name.textContent = reciptObject.name;
+            if (qualitatif) qualitatif.textContent = QUALITATIF_LIST[reciptObject.qualitatif];
+            if (price) price.textContent = `${reciptObject.price} DH`;
+
+        }
+    });
+
+    activeDay = null;
+    activeCategory = null;
+
+    console.log(reciptsDays);
+
+});
