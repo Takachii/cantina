@@ -307,9 +307,9 @@ container_days.addEventListener("click", function(event) {
         selectButton.classList.add("bg-blue-400");
         selectButton.classList.add("hover:bg-blue-300");
 
-        const name = container_recipt_days.querySelector("p.font-medium");
-        const qualitatif = container_recipt_days.querySelector("p.text-slate-400");
-        const price = container_recipt_days.querySelector("p.text-green-600");
+        const name = container_recipt_days.querySelector("p.text-lg");
+        const qualitatif = container_recipt_days.querySelector("p.text-xs");
+        const price = container_recipt_days.querySelector("p.text-lg");
 
         if (name) name.textContent = "Empty";
         if (qualitatif) qualitatif.textContent = "Empty";
@@ -355,15 +355,17 @@ button_selectDay_recipt.addEventListener("click", function(event) {
     document.querySelectorAll("[data-day]").forEach(card => {
         if (card.dataset.day === activeDay && Number(card.dataset.category) === activeCategory) {
 
-            const name = card.querySelector("p.font-medium");
-            const qualitatif = card.querySelector("p.text-slate-400");
-            const price = card.querySelector("p.text-green-600");
-
             document.querySelectorAll("[data-totalprice]").forEach(cardTotalPrice => {
                 if (cardTotalPrice.dataset.totalprice === activeDay) {
                     cardTotalPrice.textContent = `Total Price : ${getTotalDayPrice(activeDay)} DH`;
                 }
             });
+
+            const name = card.querySelector("p.text-lg");
+            const qualitatif = card.querySelector("p.text-xs");
+            const price = card.querySelector("p.text-lg");
+
+            console.log(card)
 
             if (name) name.textContent = reciptObject.name;
             if (qualitatif) qualitatif.textContent = QUALITATIF_LIST[reciptObject.qualitatif - 1];
