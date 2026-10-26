@@ -26,6 +26,8 @@ function toggleDaysPopout(categoryID) {
     const menu = document.getElementById("popout-days");
     menu.classList.toggle("hidden");
 
+    document.getElementById("span-days-recipt-notification").classList.add("hidden");
+
     if (!categoryID) return false;
 
     const qualitatifList = document.getElementById("select-days-recip-qualitatif");
@@ -345,8 +347,13 @@ button_selectDay_recipt.addEventListener("click", function(event) {
 
     if (!reciptObject) return false;
 
-    const generatedID = crypto.randomUUID();
+    if (getTotalDayPrice(activeDay) + reciptObject.price > 50) {
+        document.getElementById("span-days-recipt-notification").classList.remove("hidden");
+        document.getElementById("span-days-recipt-notification").textContent = "You have exceeded the daily limit 50 DH";
+        return false;
+    }
 
+    const generatedID = crypto.randomUUID();
     reciptsDays.push({
         id: generatedID,
         reciptID: reciptID,
@@ -367,8 +374,6 @@ button_selectDay_recipt.addEventListener("click", function(event) {
             const name = card.querySelector(".cont-days-name");
             const qualitatif = card.querySelector(".cont-days-qualitatif");
             const price = card.querySelector(".cont-days-category");
-
-            console.log(card)
 
             if (name) name.textContent = reciptObject.name;
             if (qualitatif) qualitatif.textContent = QUALITATIF_LIST[reciptObject.qualitatif - 1];
