@@ -62,6 +62,18 @@ function getCategoryStyle(category) {
     }
 }
 
+function renderRecipeCard(recipe) {
+
+    const category = CATEGORY_LIST[recipe.category - 1];
+    const style = getCategoryStyle(category);
+
+    return `
+        <div id="${recipe.id}" class="card-wrapper p-4 rounded-xl border ${style.border} bg-zinc-900/90 shadow-lg transition-all duration-200 flex flex-col justify-between">
+            ${renderRecipeCardContent(recipe)}
+        </div>
+    `;
+}
+
 function renderRecipeCardContent(recipe) {
     
     const qualitatif = QUALITATIF_LIST[recipe.qualitatif - 1];
@@ -94,17 +106,6 @@ function renderRecipeCardContent(recipe) {
             <button class="btn-recipt-delete flex-1 text-xs font-semibold py-1.5 rounded-lg bg-red-800/80 hover:bg-red-800 text-white border border-red-700/50 transition-colors cursor-pointer disabled:opacity-50 disabled:pointer-events-none">
                 Delete
             </button>
-        </div>
-    `;
-}
-
-function renderRecipeCard(recipe) {
-    const category = CATEGORY_LIST[recipe.category - 1];
-    const style = getCategoryStyle(category);
-
-    return `
-        <div id="${recipe.id}" class="card-wrapper p-4 rounded-xl border ${style.border} bg-zinc-900/90 shadow-lg transition-all duration-200 flex flex-col justify-between">
-            ${renderRecipeCardContent(recipe)}
         </div>
     `;
 }
