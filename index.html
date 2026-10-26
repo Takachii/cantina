@@ -11,37 +11,39 @@
         <title>Youcode Cantina</title>
     </head>
 
-    <body class="bg-slate-900 text-slate-50">
+    <body class="bg-zinc-950 text-emerald-50">
 
-        <header>
-            <div class="flex gap-4 p-6 m-4 rounded-md border border-gray-700 bg-slate-900">
-                <a class="font-bold text-3xl text-white" href="index.html">Youcode Cantina</a>
+        <header class="pl-10 pr-10">
+            <div class="flex gap-4 p-6 m-4 rounded-xl border border-emerald-900/40 bg-zinc-900/90 shadow-lg shadow-emerald-950/20">
+                <a class="font-bold text-3xl text-white tracking-wide hover:text-white transition-colors" href="index.html">Youcode | Cantina Panel Management</a>
             </div>
         </header>
 
-        <main>
+        <main class="pl-10 pr-10">
 
             <section>
-                <div class="m-4 p-6 rounded-md border border-gray-700 bg-slate-800">
+                <div class="m-4 p-6 rounded-xl border border-emerald-900/50 bg-zinc-900/80 backdrop-blur-sm">
                     <h1 class="text-2xl font-bold mb-4 text-white">Dashboard</h1>
 
                     <div class="flex justify-center-safe gap-4">
 
-                        <div class="p-4 w-full rounded-md border border-gray-700 bg-slate-900">
-                            <p id="dash-total-recipts" class="text-white">Total Recipes: 0</p>
-                            <p id="dash-days-ready" class="text-gray-400">Days Ready: 0/5</p>
+                        <div class="p-4 w-full rounded-lg border border-zinc-800 bg-zinc-950/70">
+                            <p id="dash-total-recipts" class="text-white font-medium">Total Recipes: 0</p>
+                            <p id="dash-days-ready" class="text-zinc-400 text-sm mt-1">Days Ready: 0/5</p>
                         </div>
 
-                        <div class="p-4 w-full rounded-md border border-gray-700 bg-slate-900">
-                            <p id="dash-weekly-average" class="text-white">Weekly Average Cost: 0 DH</p>
-                            <p class="text-gray-400">Daily Cap Check Max: 50 DH</p>
+                        <div class="p-4 w-full rounded-lg border border-zinc-800 bg-zinc-950/70">
+                            <p id="dash-weekly-average" class="text-white font-medium">Weekly Average Cost: 0 DH</p>
+                            <p class="text-zinc-400 text-sm mt-1">Daily Cap Check Max: 50 DH</p>
                         </div>
 
-                        <div class="p-4 w-full rounded-md border border-gray-700 bg-slate-900">
-                            <p class="text-white">Dietary Balance Badge: </p>
-                            <span class="bg-green-900 mt-2 px-2.5 py-0.5 text-xs font-semibold rounded-md">
-                                Vegetarian Dish (ACTIVE)
-                            </span>
+                        <div class="p-4 w-full rounded-lg border border-zinc-800 bg-zinc-950/70 flex flex-col justify-between">
+                            <p class="text-white font-medium">Dietary Balance Badge:</p>
+                            <div>
+                                <span class="bg-emerald-950 text-white border border-emerald-600/60 inline-block mt-2 px-3 py-1 text-xs font-semibold rounded-full shadow-sm">
+                                    Vegetarian Dish (ACTIVE)
+                                </span>
+                            </div>
                         </div>
 
                     </div>
@@ -51,44 +53,42 @@
 
             <section>
 
-                <div id="popout-menu" class="hidden flex fixed inset-0 bg-black/60 items-center justify-center">
-                    <div class="bg-slate-800 border border-slate-700 rounded-md">
+                <div id="popout-menu" class="hidden flex fixed inset-0 bg-black/75 backdrop-blur-xs items-center justify-center z-50">
+                    <div class="bg-zinc-900 border border-emerald-800/60 rounded-xl shadow-2xl w-full max-w-md overflow-hidden">
 
-                        <div class="mb-1 border-b border-slate-700">
-                            <h3 class="text-lg font-bold m-4 mr-42">Add Items Recipe Reserve</h3>
+                        <div class="p-4 border-b border-zinc-800 bg-zinc-900/50 flex justify-between items-center">
+                            <h3 class="text-lg font-bold text-white">Add Items Recipe Reserve</h3>
                         </div>
 
-                        <form class="grid m-2">
+                        <form class="grid gap-3 p-4">
 
-                            <span id="span-recipt-notification" class="hidden font-semibold mb-2 text-red-500"></span>
+                            <span id="span-recipt-notification" class="hidden font-semibold text-xs text-red-400 bg-red-950/40 p-2 rounded border border-red-900/50"></span>
 
-                            <input id="input-recip-name" class="font-semibold p-2 mt-1 rounded-md bg-gray-700" type="text" placeholder="Name" minlength="3" maxlength="30" pattern=".{3,30}" required>
-                            <input id="input-recip-price" class="font-semibold p-2 mt-3 rounded-md bg-gray-700" type="number" min="1" step="1" placeholder="Price" required>
+                            <input id="input-recip-name" class="font-medium p-2.5 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-400 focus:outline-none focus:border-emerald-500" type="text" placeholder="Name" minlength="3" maxlength="30" pattern=".{3,30}" required>
+                            <input id="input-recip-price" class="font-medium p-2.5 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-400 focus:outline-none focus:border-emerald-500" type="number" min="1" step="1" placeholder="Price" required>
 
-                            <select id="select-recip-qualitatif" class="bg font-semibold rounded-md mt-3 h-10 p-2 bg-gray-700" required>
+                            <select id="select-recip-qualitatif" class="font-medium rounded-lg p-2.5 bg-zinc-800 border border-zinc-700 text-zinc-100 focus:outline-none focus:border-emerald-500" required>
                                 <option disabled selected>Please choose Qualitatif</option>
                                 <option>Bio</option>
                                 <option>Végétarien</option>
                                 <option>Classique</option>
                             </select>
 
-                            <select id="select-recip-category" class="bg font-semibold rounded-md mt-3 h-10 p-2 bg-gray-700" required>
+                            <select id="select-recip-category" class="font-medium rounded-lg p-2.5 bg-zinc-800 border border-zinc-700 text-zinc-100 focus:outline-none focus:border-emerald-500" required>
                                 <option disabled selected>Please choose Category</option>
                                 <option>Entrée</option>
                                 <option>Plat Principal</option>
                                 <option>Dessert</option>
                             </select>
 
-                            <div class="flex">
-
-                                <button id="btn-create-recipt" type="submit" class="flex-8 font-semibold text-white rounded bg-blue-400 hover:bg-blue-300 w-full mt-3 mb-1 h-10 cursor-pointer">
+                            <div class="flex gap-2 mt-2">
+                                <button id="btn-create-recipt" type="submit" class="flex-8 font-semibold text-white rounded-lg bg-emerald-700 hover:bg-emerald-800 transition-colors h-10 cursor-pointer">
                                     Create Recipe Reserve
                                 </button>
 
-                                <button onclick="togglePopout()" type="button" class="flex-2 font-semibold text-white rounded bg-red-600 w-full hover:bg-red-700 mt-3 ml-2 mb-1 h-10 cursor-pointer">
+                                <button onclick="togglePopout()" type="button" class="flex-2 font-semibold text-white rounded-lg bg-red-800 hover:bg-red-900 border border-red-800/50 transition-colors h-10 cursor-pointer">
                                     Close
                                 </button>
-
                             </div>
 
                         </form>
@@ -96,12 +96,12 @@
                     </div>
                 </div>
 
-                <div class="m-4 p-6 rounded-md border bg-slate-900 border-slate-700">
+                <div class="m-4 p-6 rounded-xl border border-emerald-900/50 bg-zinc-900/80">
                     
-                    <div class="flex">
-                        <h1 class="flex-9 text-2xl font-bold mb-4 text-slate-50">Recipe Reserve</h1>
-                        <button onclick="togglePopout()" class="flex-1 bg-green-700 hover:bg-green-800 w-full h-9 rounded-md cursor-pointer font-bold">
-                            Add New
+                    <div class="flex items-center justify-between mb-4">
+                        <h1 class="text-2xl font-bold text-white">Recipe Reserve</h1>
+                        <button onclick="togglePopout()" class="bg-emerald-700 hover:bg-emerald-800 text-white px-4 h-9 rounded-lg cursor-pointer font-bold transition-colors shadow-sm">
+                            + Add New
                         </button>
                     </div>
 
@@ -114,28 +114,28 @@
 
             <section>
 
-                <div id="popout-days" class="hidden flex fixed inset-0 bg-black/60 items-center justify-center">
-                    <div class="bg-slate-800 border border-slate-700 rounded-md">
+                <div id="popout-days" class="hidden flex fixed inset-0 bg-black/75 backdrop-blur-xs items-center justify-center z-50">
+                    <div class="bg-zinc-900 border border-emerald-800/60 rounded-xl shadow-2xl w-full max-w-md overflow-hidden">
 
-                        <div class="mb-1 border-b border-slate-700">
-                            <h3 class="text-lg font-bold m-4 mr-42">Select Recipe Reserve</h3>
+                        <div class="p-4 border-b border-zinc-800 bg-zinc-900/50">
+                            <h3 class="text-lg font-bold text-white">Select Recipe Reserve</h3>
                         </div>
 
-                        <form class="grid m-2">
+                        <form class="grid gap-3 p-4">
 
-                            <span id="span-days-recipt-notification" class="hidden font-semibold mb-2 text-red-500"></span>
+                            <span id="span-days-recipt-notification" class="hidden font-semibold text-xs text-red-400 bg-red-950/40 p-2 rounded border border-red-900/50"></span>
 
-                            <select id="select-days-recip-qualitatif" class="bg font-semibold rounded-md mt-1 h-10 p-2 bg-gray-700" required>
+                            <select id="select-days-recip-qualitatif" class="font-medium rounded-lg p-2.5 bg-zinc-800 border border-zinc-700 text-zinc-100 focus:outline-none focus:border-emerald-500" required>
                                 <option disabled selected>Please choose recipt</option>
                             </select>
 
-                            <div class="flex">
+                            <div class="flex gap-2 mt-2">
 
-                                <button id="btn-select-day-recipt" type="submit" class="flex-8 font-semibold text-white rounded bg-blue-400 hover:bg-blue-300 w-full mt-3 mb-1 h-10 cursor-pointer">
-                                    Select Recipt
+                                <button id="btn-select-day-recipt" type="submit" class="flex-8 font-semibold text-white rounded-lg bg-emerald-700 hover:bg-emerald-800 transition-colors h-10 cursor-pointer">
+                                    Select Recipe Reserve
                                 </button>
 
-                                <button onclick="toggleDaysPopout()" type="button" class="flex-2 font-semibold text-white rounded bg-red-600 w-full hover:bg-red-700 mt-3 ml-2 mb-1 h-10 cursor-pointer">
+                                <button onclick="toggleDaysPopout()" type="button" class="flex-2 font-semibold text-white rounded-lg bg-red-800 hover:bg-red-900 border border-red-800/50 transition-colors h-10 cursor-pointer">
                                     Close
                                 </button>
 
@@ -146,233 +146,233 @@
                     </div>
                 </div>
 
-                <div class="m-4 p-6 rounded-md border border-gray-700 bg-slate-800">
+                <div class="m-4 p-6 rounded-xl border border-emerald-900/50 bg-zinc-900/80">
                     
-                    <h1 class="text-2xl font-bold mb-4 text-slate-50">Week Days</h1>
+                    <h1 class="text-2xl font-bold mb-4 text-white">Week Days</h1>
 
                     <div id="container-days" class="flex justify-center-safe gap-4">
 
-                        <div class="p-4 w-full rounded-md border border-gray-700 bg-slate-900">
-                            <h2 class="text-xl font-bold mb-4 text-slate-50">Monday</h2>
+                        <div class="p-4 w-full rounded-xl border border-zinc-800 bg-zinc-950/70">
+                            <h2 class="text-xl font-bold mb-4 text-white border-b border-zinc-800 pb-2">Monday</h2>
                             <div class="grid gap-3">
-                                <div data-day="monday" data-category="0" class="p-3 rounded-md border border-gray-700 border-t-2 bg-slate-800">
+                                <div data-day="monday" data-category="0" class="p-3 rounded-lg border border-zinc-800 border-t-2 border-t-sky-500/80 bg-zinc-900/90">
                                     <div class="container-btn-days-select flex justify-between items-center mb-2">
-                                        <span class="text-md font-bold px-2 py-0.5 rounded bg-sky-400/15 text-sky-400">Entrée</span>
-                                        <button class="text-xs font-semibold px-3 py-1.5 rounded bg-blue-400 hover:bg-blue-300 text-white cursor-pointer">
+                                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-sky-500/15 text-sky-400 border border-sky-500/20">Entrée</span>
+                                        <button class="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white transition-colors cursor-pointer">
                                             Select
                                         </button>
                                     </div>
-                                    <p class="text-xl mt-4 font-medium">Empty</p>
-                                    <p class="text-xs mt-2 text-slate-400">Empty</p>
-                                    <p class="text-xl mt-2 font-bold text-green-600">0 DH</p>
+                                    <p class="text-lg mt-3 font-medium text-zinc-200">Empty</p>
+                                    <p class="text-xs mt-1 text-zinc-500">Empty</p>
+                                    <p class="text-lg mt-2 font-bold text-white">0 DH</p>
                                 </div>
 
-                                <div data-day="monday" data-category="1" class="p-3 rounded-md border border-gray-700 border-t-2 bg-slate-800">
+                                <div data-day="monday" data-category="1" class="p-3 rounded-lg border border-zinc-800 border-t-2 border-t-amber-500/80 bg-zinc-900/90">
                                     <div class="flex justify-between items-center mb-2">
-                                        <span class="text-md font-bold px-2 py-0.5 rounded bg-amber-500/15 text-amber-500">Plat principal</span>
-                                        <button class="text-xs font-semibold px-3 py-1.5 rounded bg-blue-400 hover:bg-blue-300 text-white cursor-pointer">
+                                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/20">Plat principal</span>
+                                        <button class="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white transition-colors cursor-pointer">
                                             Select
                                         </button>
                                     </div>
-                                    <p class="text-xl mt-4 font-medium">Empty</p>
-                                    <p class="text-xs mt-2 text-slate-400">Empty</p>
-                                    <p class="text-xl mt-2 font-bold text-green-600">0 DH</p>
+                                    <p class="text-lg mt-3 font-medium text-zinc-200">Empty</p>
+                                    <p class="text-xs mt-1 text-zinc-500">Empty</p>
+                                    <p class="text-lg mt-2 font-bold text-white">0 DH</p>
                                 </div>
 
-                                <div data-day="monday" data-category="2" class="p-3 rounded-md border border-gray-700 border-t-2 bg-slate-800">
+                                <div data-day="monday" data-category="2" class="p-3 rounded-lg border border-zinc-800 border-t-2 border-t-purple-500/80 bg-zinc-900/90">
                                     <div class="flex justify-between items-center mb-2">
-                                        <span class="text-md font-bold px-2 py-0.5 rounded bg-purple-500/15 text-purple-400">Dessert</span>
-                                        <button class="text-xs font-semibold px-3 py-1.5 rounded bg-blue-400 hover:bg-blue-300 text-white cursor-pointer">
+                                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-purple-500/15 text-purple-400 border border-purple-500/20">Dessert</span>
+                                        <button class="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white transition-colors cursor-pointer">
                                             Select
                                         </button>
                                     </div>
-                                    <p class="text-xl mt-4 font-medium">Empty</p>
-                                    <p class="text-xs mt-2 text-slate-400">Empty</p>
-                                    <p class="text-xl mt-2 font-bold text-green-600">0 DH</p>
+                                    <p class="text-lg mt-3 font-medium text-zinc-200">Empty</p>
+                                    <p class="text-xs mt-1 text-zinc-500">Empty</p>
+                                    <p class="text-lg mt-2 font-bold text-white">0 DH</p>
                                 </div>
 
-                                <div class="p-3 rounded-md border border-gray-700 border-t-2 bg-slate-800">
-                                    <p data-totalprice="monday" class="text-xl font-medium">Total Price : 0 DH</p>
+                                <div class="p-3 rounded-lg border border-zinc-800 bg-zinc-900/40">
+                                    <p data-totalprice="monday" class="text-base font-semibold text-white">Total Price : 0 DH</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="p-4 w-full rounded-md border border-gray-700 bg-slate-900">
-                            <h2 class="text-xl font-bold mb-4 text-slate-50">Tuesday</h2>
+                        <div class="p-4 w-full rounded-xl border border-zinc-800 bg-zinc-950/70">
+                            <h2 class="text-xl font-bold mb-4 text-white border-b border-zinc-800 pb-2">Tuesday</h2>
                             <div class="grid gap-3">
-                                <div data-day="tuesday" data-category="0" class="p-3 rounded-md border border-gray-700 border-t-2 bg-slate-800">
+                                <div data-day="tuesday" data-category="0" class="p-3 rounded-lg border border-zinc-800 border-t-2 border-t-sky-500/80 bg-zinc-900/90">
                                     <div class="flex justify-between items-center mb-2">
-                                        <span class="text-md font-bold px-2 py-0.5 rounded bg-sky-400/15 text-sky-400">Entrée</span>
-                                        <button class="text-xs font-semibold px-3 py-1.5 rounded bg-blue-400 hover:bg-blue-300 text-white cursor-pointer">
+                                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-sky-500/15 text-sky-400 border border-sky-500/20">Entrée</span>
+                                        <button class="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white transition-colors cursor-pointer">
                                             Select
                                         </button>
                                     </div>
-                                    <p class="text-xl mt-4 font-medium">Empty</p>
-                                    <p class="text-xs mt-2 text-slate-400">Empty</p>
-                                    <p class="text-xl mt-2 font-bold text-green-600">0 DH</p>
+                                    <p class="text-lg mt-3 font-medium text-zinc-200">Empty</p>
+                                    <p class="text-xs mt-1 text-zinc-500">Empty</p>
+                                    <p class="text-lg mt-2 font-bold text-white">0 DH</p>
                                 </div>
 
-                                <div data-day="tuesday" data-category="1" class="p-3 rounded-md border border-gray-700 border-t-2 bg-slate-800">
+                                <div data-day="tuesday" data-category="1" class="p-3 rounded-lg border border-zinc-800 border-t-2 border-t-amber-500/80 bg-zinc-900/90">
                                     <div class="flex justify-between items-center mb-2">
-                                        <span class="text-md font-bold px-2 py-0.5 rounded bg-amber-500/15 text-amber-500">Plat principal</span>
-                                        <button class="text-xs font-semibold px-3 py-1.5 rounded bg-blue-400 hover:bg-blue-300 text-white cursor-pointer">
+                                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/20">Plat principal</span>
+                                        <button class="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white transition-colors cursor-pointer">
                                             Select
                                         </button>
                                     </div>
-                                    <p class="text-xl mt-4 font-medium">Empty</p>
-                                    <p class="text-xs mt-2 text-slate-400">Empty</p>
-                                    <p class="text-xl mt-2 font-bold text-green-600">0 DH</p>
+                                    <p class="text-lg mt-3 font-medium text-zinc-200">Empty</p>
+                                    <p class="text-xs mt-1 text-zinc-500">Empty</p>
+                                    <p class="text-lg mt-2 font-bold text-white">0 DH</p>
                                 </div>
 
-                                <div data-day="tuesday" data-category="2" class="p-3 rounded-md border border-gray-700 border-t-2 bg-slate-800">
+                                <div data-day="tuesday" data-category="2" class="p-3 rounded-lg border border-zinc-800 border-t-2 border-t-purple-500/80 bg-zinc-900/90">
                                     <div class="flex justify-between items-center mb-2">
-                                        <span class="text-md font-bold px-2 py-0.5 rounded bg-purple-500/15 text-purple-400">Dessert</span>
-                                        <button class="text-xs font-semibold px-3 py-1.5 rounded bg-blue-400 hover:bg-blue-300 text-white cursor-pointer">
+                                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-purple-500/15 text-purple-400 border border-purple-500/20">Dessert</span>
+                                        <button class="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white transition-colors cursor-pointer">
                                             Select
                                         </button>
                                     </div>
-                                    <p class="text-xl mt-4 font-medium">Empty</p>
-                                    <p class="text-xs mt-2 text-slate-400">Empty</p>
-                                    <p class="text-xl mt-2 font-bold text-green-600">0 DH</p>
+                                    <p class="text-lg mt-3 font-medium text-zinc-200">Empty</p>
+                                    <p class="text-xs mt-1 text-zinc-500">Empty</p>
+                                    <p class="text-lg mt-2 font-bold text-white">0 DH</p>
                                 </div>
 
-                                <div class="p-3 rounded-md border border-gray-700 border-t-2 bg-slate-800">
-                                    <p data-totalprice="tuesday" class="text-xl font-medium">Total Price : 0 DH</p>
+                                <div class="p-3 rounded-lg border border-zinc-800 bg-zinc-900/40">
+                                    <p data-totalprice="tuesday" class="text-base font-semibold text-white">Total Price : 0 DH</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="p-4 w-full rounded-md border border-gray-700 bg-slate-900">
-                            <h2 class="text-xl font-bold mb-4 text-slate-50">Wednesday</h2>
+                        <div class="p-4 w-full rounded-xl border border-zinc-800 bg-zinc-950/70">
+                            <h2 class="text-xl font-bold mb-4 text-white border-b border-zinc-800 pb-2">Wednesday</h2>
                             <div class="grid gap-3">
-                                <div data-day="wednesday" data-category="0" class="p-3 rounded-md border border-gray-700 border-t-2 bg-slate-800">
+                                <div data-day="wednesday" data-category="0" class="p-3 rounded-lg border border-zinc-800 border-t-2 border-t-sky-500/80 bg-zinc-900/90">
                                     <div class="flex justify-between items-center mb-2">
-                                        <span class="text-md font-bold px-2 py-0.5 rounded bg-sky-400/15 text-sky-400">Entrée</span>
-                                        <button class="text-xs font-semibold px-3 py-1.5 rounded bg-blue-400 hover:bg-blue-300 text-white cursor-pointer">
+                                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-sky-500/15 text-sky-400 border border-sky-500/20">Entrée</span>
+                                        <button class="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white transition-colors cursor-pointer">
                                             Select
                                         </button>
                                     </div>
-                                    <p class="text-xl mt-4 font-medium">Empty</p>
-                                    <p class="text-xs mt-2 text-slate-400">Empty</p>
-                                    <p class="text-xl mt-2 font-bold text-green-600">0 DH</p>
+                                    <p class="text-lg mt-3 font-medium text-zinc-200">Empty</p>
+                                    <p class="text-xs mt-1 text-zinc-500">Empty</p>
+                                    <p class="text-lg mt-2 font-bold text-white">0 DH</p>
                                 </div>
 
-                                <div data-day="wednesday" data-category="1" class="p-3 rounded-md border border-gray-700 border-t-2 bg-slate-800">
+                                <div data-day="wednesday" data-category="1" class="p-3 rounded-lg border border-zinc-800 border-t-2 border-t-amber-500/80 bg-zinc-900/90">
                                     <div class="flex justify-between items-center mb-2">
-                                        <span class="text-md font-bold px-2 py-0.5 rounded bg-amber-500/15 text-amber-500">Plat principal</span>
-                                        <button class="text-xs font-semibold px-3 py-1.5 rounded bg-blue-400 hover:bg-blue-300 text-white cursor-pointer">
+                                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/20">Plat principal</span>
+                                        <button class="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white transition-colors cursor-pointer">
                                             Select
                                         </button>
                                     </div>
-                                    <p class="text-xl mt-4 font-medium">Empty</p>
-                                    <p class="text-xs mt-2 text-slate-400">Empty</p>
-                                    <p class="text-xl mt-2 font-bold text-green-600">0 DH</p>
+                                    <p class="text-lg mt-3 font-medium text-zinc-200">Empty</p>
+                                    <p class="text-xs mt-1 text-zinc-500">Empty</p>
+                                    <p class="text-lg mt-2 font-bold text-white">0 DH</p>
                                 </div>
 
-                                <div data-day="wednesday" data-category="2" class="p-3 rounded-md border border-gray-700 border-t-2 bg-slate-800">
+                                <div data-day="wednesday" data-category="2" class="p-3 rounded-lg border border-zinc-800 border-t-2 border-t-purple-500/80 bg-zinc-900/90">
                                     <div class="flex justify-between items-center mb-2">
-                                        <span class="text-md font-bold px-2 py-0.5 rounded bg-purple-500/15 text-purple-400">Dessert</span>
-                                        <button class="text-xs font-semibold px-3 py-1.5 rounded bg-blue-400 hover:bg-blue-300 text-white cursor-pointer">
+                                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-purple-500/15 text-purple-400 border border-purple-500/20">Dessert</span>
+                                        <button class="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white transition-colors cursor-pointer">
                                             Select
                                         </button>
                                     </div>
-                                    <p class="text-xl mt-4 font-medium">Empty</p>
-                                    <p class="text-xs mt-2 text-slate-400">Empty</p>
-                                    <p class="text-xl mt-2 font-bold text-green-600">0 DH</p>
+                                    <p class="text-lg mt-3 font-medium text-zinc-200">Empty</p>
+                                    <p class="text-xs mt-1 text-zinc-500">Empty</p>
+                                    <p class="text-lg mt-2 font-bold text-white">0 DH</p>
                                 </div>
 
-                                <div class="p-3 rounded-md border border-gray-700 border-t-2 bg-slate-800">
-                                    <p data-totalprice="wednesday" class="text-xl font-medium">Total Price : 0 DH</p>
+                                <div class="p-3 rounded-lg border border-zinc-800 bg-zinc-900/40">
+                                    <p data-totalprice="wednesday" class="text-base font-semibold text-white">Total Price : 0 DH</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="p-4 w-full rounded-md border border-gray-700 bg-slate-900">
-                            <h2 class="text-xl font-bold mb-4 text-slate-50">Thursday</h2>
+                        <div class="p-4 w-full rounded-xl border border-zinc-800 bg-zinc-950/70">
+                            <h2 class="text-xl font-bold mb-4 text-white border-b border-zinc-800 pb-2">Thursday</h2>
                             <div class="grid gap-3">
-                                <div data-day="thursday" data-category="0" class="p-3 rounded-md border border-gray-700 border-t-2 bg-slate-800">
+                                <div data-day="thursday" data-category="0" class="p-3 rounded-lg border border-zinc-800 border-t-2 border-t-sky-500/80 bg-zinc-900/90">
                                     <div class="flex justify-between items-center mb-2">
-                                        <span class="text-md font-bold px-2 py-0.5 rounded bg-sky-400/15 text-sky-400">Entrée</span>
-                                        <button class="text-xs font-semibold px-3 py-1.5 rounded bg-blue-400 hover:bg-blue-300 text-white cursor-pointer">
+                                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-sky-500/15 text-sky-400 border border-sky-500/20">Entrée</span>
+                                        <button class="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white transition-colors cursor-pointer">
                                             Select
                                         </button>
                                     </div>
-                                    <p class="text-xl mt-4 font-medium">Empty</p>
-                                    <p class="text-xs mt-2 text-slate-400">Empty</p>
-                                    <p class="text-xl mt-2 font-bold text-green-600">0 DH</p>
+                                    <p class="text-lg mt-3 font-medium text-zinc-200">Empty</p>
+                                    <p class="text-xs mt-1 text-zinc-500">Empty</p>
+                                    <p class="text-lg mt-2 font-bold text-white">0 DH</p>
                                 </div>
 
-                                <div data-day="thursday" data-category="1" class="p-3 rounded-md border border-gray-700 border-t-2 bg-slate-800">
+                                <div data-day="thursday" data-category="1" class="p-3 rounded-lg border border-zinc-800 border-t-2 border-t-amber-500/80 bg-zinc-900/90">
                                     <div class="flex justify-between items-center mb-2">
-                                        <span class="text-md font-bold px-2 py-0.5 rounded bg-amber-500/15 text-amber-500">Plat principal</span>
-                                        <button class="text-xs font-semibold px-3 py-1.5 rounded bg-blue-400 hover:bg-blue-300 text-white cursor-pointer">
+                                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/20">Plat principal</span>
+                                        <button class="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white transition-colors cursor-pointer">
                                             Select
                                         </button>
                                     </div>
-                                    <p class="text-xl mt-4 font-medium">Empty</p>
-                                    <p class="text-xs mt-2 text-slate-400">Empty</p>
-                                    <p class="text-xl mt-2 font-bold text-green-600">0 DH</p>
+                                    <p class="text-lg mt-3 font-medium text-zinc-200">Empty</p>
+                                    <p class="text-xs mt-1 text-zinc-500">Empty</p>
+                                    <p class="text-lg mt-2 font-bold text-white">0 DH</p>
                                 </div>
 
-                                <div data-day="thursday" data-category="2" class="p-3 rounded-md border border-gray-700 border-t-2 bg-slate-800">
+                                <div data-day="thursday" data-category="2" class="p-3 rounded-lg border border-zinc-800 border-t-2 border-t-purple-500/80 bg-zinc-900/90">
                                     <div class="flex justify-between items-center mb-2">
-                                        <span class="text-md font-bold px-2 py-0.5 rounded bg-purple-500/15 text-purple-400">Dessert</span>
-                                        <button class="text-xs font-semibold px-3 py-1.5 rounded bg-blue-400 hover:bg-blue-300 text-white cursor-pointer">
+                                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-purple-500/15 text-purple-400 border border-purple-500/20">Dessert</span>
+                                        <button class="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white transition-colors cursor-pointer">
                                             Select
                                         </button>
                                     </div>
-                                    <p class="text-xl mt-4 font-medium">Empty</p>
-                                    <p class="text-xs mt-2 text-slate-400">Empty</p>
-                                    <p class="text-xl mt-2 font-bold text-green-600">0 DH</p>
+                                    <p class="text-lg mt-3 font-medium text-zinc-200">Empty</p>
+                                    <p class="text-xs mt-1 text-zinc-500">Empty</p>
+                                    <p class="text-lg mt-2 font-bold text-white">0 DH</p>
                                 </div>
 
-                                <div class="p-3 rounded-md border border-gray-700 border-t-2 bg-slate-800">
-                                    <p data-totalprice="thursday" class="text-xl font-medium">Total Price : 0 DH</p>
+                                <div class="p-3 rounded-lg border border-zinc-800 bg-zinc-900/40">
+                                    <p data-totalprice="thursday" class="text-base font-semibold text-white">Total Price : 0 DH</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="p-4 w-full rounded-md border border-gray-700 bg-slate-900">
-                            <h2 class="text-xl font-bold mb-4 text-slate-50">Friday</h2>
+                        <div class="p-4 w-full rounded-xl border border-zinc-800 bg-zinc-950/70">
+                            <h2 class="text-xl font-bold mb-4 text-white border-b border-zinc-800 pb-2">Friday</h2>
                             <div class="grid gap-3">
-                                <div data-day="friday" data-category="0" class="p-3 rounded-md border border-gray-700 border-t-2 bg-slate-800">
+                                <div data-day="friday" data-category="0" class="p-3 rounded-lg border border-zinc-800 border-t-2 border-t-sky-500/80 bg-zinc-900/90">
                                     <div class="flex justify-between items-center mb-2">
-                                        <span class="text-md font-bold px-2 py-0.5 rounded bg-sky-400/15 text-sky-400">Entrée</span>
-                                        <button class="text-xs font-semibold px-3 py-1.5 rounded bg-blue-400 hover:bg-blue-300 text-white cursor-pointer">
+                                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-sky-500/15 text-sky-400 border border-sky-500/20">Entrée</span>
+                                        <button class="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white transition-colors cursor-pointer">
                                             Select
                                         </button>
                                     </div>
-                                    <p class="text-xl mt-4 font-medium">Empty</p>
-                                    <p class="text-xs mt-2 text-slate-400">Empty</p>
-                                    <p class="text-xl mt-2 font-bold text-green-600">0 DH</p>
+                                    <p class="text-lg mt-3 font-medium text-zinc-200">Empty</p>
+                                    <p class="text-xs mt-1 text-zinc-500">Empty</p>
+                                    <p class="text-lg mt-2 font-bold text-white">0 DH</p>
                                 </div>
 
-                                <div data-day="friday" data-category="1" class="p-3 rounded-md border border-gray-700 border-t-2 bg-slate-800">
+                                <div data-day="friday" data-category="1" class="p-3 rounded-lg border border-zinc-800 border-t-2 border-t-amber-500/80 bg-zinc-900/90">
                                     <div class="flex justify-between items-center mb-2">
-                                        <span class="text-md font-bold px-2 py-0.5 rounded bg-amber-500/15 text-amber-500">Plat principal</span>
-                                        <button class="text-xs font-semibold px-3 py-1.5 rounded bg-blue-400 hover:bg-blue-300 text-white cursor-pointer">
+                                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/20">Plat principal</span>
+                                        <button class="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white transition-colors cursor-pointer">
                                             Select
                                         </button>
                                     </div>
-                                    <p class="text-xl mt-4 font-medium">Empty</p>
-                                    <p class="text-xs mt-2 text-slate-400">Empty</p>
-                                    <p class="text-xl mt-2 font-bold text-green-600">0 DH</p>
+                                    <p class="text-lg mt-3 font-medium text-zinc-200">Empty</p>
+                                    <p class="text-xs mt-1 text-zinc-500">Empty</p>
+                                    <p class="text-lg mt-2 font-bold text-white">0 DH</p>
                                 </div>
 
-                                <div data-day="friday" data-category="2" class="p-3 rounded-md border border-gray-700 border-t-2 bg-slate-800">
+                                <div data-day="friday" data-category="2" class="p-3 rounded-lg border border-zinc-800 border-t-2 border-t-purple-500/80 bg-zinc-900/90">
                                     <div class="flex justify-between items-center mb-2">
-                                        <span class="text-md font-bold px-2 py-0.5 rounded bg-purple-500/15 text-purple-400">Dessert</span>
-                                        <button class="text-xs font-semibold px-3 py-1.5 rounded bg-blue-400 hover:bg-blue-300 text-white cursor-pointer">
+                                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-purple-500/15 text-purple-400 border border-purple-500/20">Dessert</span>
+                                        <button class="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white transition-colors cursor-pointer">
                                             Select
                                         </button>
                                     </div>
-                                    <p class="text-xl mt-4 font-medium">Empty</p>
-                                    <p class="text-xs mt-2 text-slate-400">Empty</p>
-                                    <p class="text-xl mt-2 font-bold text-green-600">0 DH</p>
+                                    <p class="text-lg mt-3 font-medium text-zinc-200">Empty</p>
+                                    <p class="text-xs mt-1 text-zinc-500">Empty</p>
+                                    <p class="text-lg mt-2 font-bold text-white">0 DH</p>
                                 </div>
 
-                                <div class="p-3 rounded-md border border-gray-700 border-t-2 bg-slate-800">
-                                    <p data-totalprice="friday" class="text-xl font-medium">Total Price : 0 DH</p>
+                                <div class="p-3 rounded-lg border border-zinc-800 bg-zinc-900/40">
+                                    <p data-totalprice="friday" class="text-base font-semibold text-white">Total Price : 0 DH</p>
                                 </div>
                             </div>
                         </div>
