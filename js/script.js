@@ -4,22 +4,7 @@ const reciptsItems = [];
 const QUALITATIF_LIST = ["Bio", "Végétarien", "Classique"];
 const CATEGORY_LIST = ["Entrée", "Plat Principal", "Dessert"]
 
-let reciptEditSelect, reciptDaysSelect;
-
-function getReciptsObjectByID(id) {
-    for (let i=0; i<reciptsItems.length; i++) {
-        if (reciptsItems[i].id === id) return reciptsItems[i];
-    }
-}
-
-function deleteReciptsObjectByID(id) {
-    for (let i=0; i<reciptsItems.length; i++) {
-        if (reciptsItems[i].id === id) {
-            reciptsItems.splice(i, 1);
-            return true;
-        }
-    }
-}
+let reciptEditSelect;
 
 function togglePopout() {
 
@@ -92,7 +77,52 @@ function updateDashboard() {
     const dash_days_ready = document.getElementById("dash-days-ready");
     const dash_weekly_average = document.getElementById("dash-weekly-average");
 
-    dash_total_recipts.textContent = `Total Recipes: ${reciptsItems.length}`
+    dash_total_recipts.textContent = `Total Recipes: ${reciptsItems.length}`;
+
+}
+
+function getReciptsObjectByID(id) {
+    for (let i=0; i<reciptsItems.length; i++) {
+        if (reciptsItems[i].id === id) return reciptsItems[i];
+    }
+}
+
+function removeReciptsObjectByID(id) {
+    for (let i=0; i<reciptsItems.length; i++) {
+        if (reciptsItems[i].id === id) {
+            reciptsItems.splice(i, 1);
+            return true;
+        }
+    }
+}
+
+function getReciptsDaysObjectByID(id) {
+    for (let i=0; i<reciptsDays.length; i++) {
+        if (reciptsDays[i].id === id) return reciptsDays[i];
+    }
+}
+
+function removeReciptsDaysByID(id) {
+    for (let i=0; i<reciptsDays.length; i++) {
+        if (reciptsDays[i].id === id) {
+            reciptsDays.splice(i, 1);
+            return true;
+        }
+    }
+}
+
+function getTotalDayPrice(day) {
+
+    let total = 0;
+
+    for (const value of reciptsDays) {
+        const reciptObject = getReciptsObjectByID(value.reciptID);
+        if (reciptObject) {
+            if (value.day === day) total += reciptObject.price;
+        }
+    }
+
+    return total;
 
 }
 
@@ -188,7 +218,7 @@ container_recipes.addEventListener("click", function(event) {
         reciptEditSelect = card;
 
     } else if (event.target.classList.contains("btn-recipt-delete")) {
-        deleteReciptsObjectByID(card.id)
+        removeReciptsObjectByID(card.id)
         card.remove();
         updateDashboard();
     }
@@ -213,13 +243,18 @@ container_days.addEventListener("click", function(event) {
     activeButtonSelected = selectButton;
 
     if (selectButton.textContent === "Remove") {
+
+        const reciptDayObject = getReciptsDaysObjectByID(selectButton.id)
+        if (!reciptDayObject) return false;
         
-        const reciptObject = getReciptsObjectByID(selectButton.id);
+        const reciptObject = getReciptsObjectByID(reciptDayObject.reciptID);
         if (!reciptObject) return false;
+
+        removeReciptsDaysByID(selectButton.id);
 
         reciptObject.status = true;
 
-        const container_recipt = document.getElementById(selectButton.id)
+        const container_recipt = document.getElementById(reciptDayObject.reciptID)
         if (!container_recipt) return false;
 
         setReciptStatus(reciptObject, true)
@@ -239,6 +274,12 @@ container_days.addEventListener("click", function(event) {
         if (name) name.textContent = "Empty";
         if (qualitatif) qualitatif.textContent = "Empty";
         if (price) price.textContent = `0 DH`;
+        
+        document.querySelectorAll("[data-totalprice]").forEach(cardTotalPrice => {
+            if (cardTotalPrice.dataset.totalprice === activeDay) {
+                cardTotalPrice.textContent = `Total Price : ${getTotalDayPrice(activeDay)} DH`;
+            }
+        });
 
         return true;
 
@@ -261,8 +302,10 @@ button_selectDay_recipt.addEventListener("click", function(event) {
 
     if (!reciptObject) return false;
 
+    const generatedID = crypto.randomUUID();
+
     reciptsDays.push({
-        id: crypto.randomUUID(),
+        id: generatedID,
         reciptID: reciptID,
         day: activeDay,
         category: activeCategory,
@@ -270,19 +313,24 @@ button_selectDay_recipt.addEventListener("click", function(event) {
     });
 
     document.querySelectorAll("[data-day]").forEach(card => {
-
         if (card.dataset.day === activeDay && Number(card.dataset.category) === activeCategory) {
 
             const name = card.querySelector("p.font-medium");
             const qualitatif = card.querySelector("p.text-slate-400");
             const price = card.querySelector("p.text-green-600");
 
+            document.querySelectorAll("[data-totalprice]").forEach(cardTotalPrice => {
+                if (cardTotalPrice.dataset.totalprice === activeDay) {
+                    cardTotalPrice.textContent = `Total Price : ${getTotalDayPrice(activeDay)} DH`;
+                }
+            });
+
             if (name) name.textContent = reciptObject.name;
             if (qualitatif) qualitatif.textContent = QUALITATIF_LIST[reciptObject.qualitatif - 1];
             if (price) price.textContent = `${reciptObject.price} DH`;
 
             setReciptStatus(reciptObject, false);
-            
+
             activeButtonSelected.textContent = "Remove";
 
             activeButtonSelected.classList.remove("bg-blue-400");
@@ -290,7 +338,7 @@ button_selectDay_recipt.addEventListener("click", function(event) {
             activeButtonSelected.classList.add("bg-red-600");
             activeButtonSelected.classList.add("hover:bg-red-500");
 
-            activeButtonSelected.id = reciptObject.id;
+            activeButtonSelected.id = generatedID;
 
             toggleDaysPopout();
 
