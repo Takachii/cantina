@@ -43,9 +43,32 @@ function toggleDaysPopout(categoryID) {
 
 }
 
-function renderRecipeCard(recipe) {
+function getCategoryStyle(category) {
+    if (category === "Entrée") {
+        return {
+            border: "border-t-2 border-t-sky-500/80 border-zinc-800",
+            badge: "bg-sky-500/15 text-sky-400 border-sky-500/20"
+        };
+    } else if (category === "Plat Principal") {
+        return {
+            border: "border-t-2 border-t-amber-500/80 border-zinc-800",
+            badge: "bg-amber-500/15 text-amber-400 border border-amber-500/20"
+        };
+    } else if (category === "Dessert") {
+        return {
+            border: "border-t-2 border-t-purple-500 border-zinc-800",
+            badge: "bg-purple-500/15 text-purple-400 border-purple-500/20"
+        };
+    }
+}
+
+function renderRecipeCardContent(recipe) {
+    
+    const qualitatif = QUALITATIF_LIST[recipe.qualitatif - 1];
+    const category = CATEGORY_LIST[recipe.category - 1];
+    const style = getCategoryStyle(category);
+
     return `
-    <div id="${recipe.id}" class="card-wrapper p-4 rounded-xl border border-zinc-800 bg-zinc-900/90 shadow-lg flex flex-col justify-between">
         <div>
             <div class="flex items-start justify-between gap-2 mb-2">
                 <h4 class="text-lg font-bold text-white leading-tight">${recipe.name}</h4>
@@ -55,14 +78,12 @@ function renderRecipeCard(recipe) {
             </div>
             
             <div class="space-y-1.5 mt-3 text-xs">
-                <p class="text-zinc-400 flex justify-between">
-                    <span class="font-medium text-zinc-500">Qualitatif:</span>
-                    <span class="font-semibold text-zinc-200">${QUALITATIF_LIST[recipe.qualitatif - 1]}</span>
-                </p>
-                <p class="text-zinc-400 flex justify-between">
-                    <span class="font-medium text-zinc-500">Category:</span>
-                    <span class="font-semibold text-zinc-200">${CATEGORY_LIST[recipe.category - 1]}</span>
-                </p>
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded border ${style.badge}">
+                        ${category}
+                    </span>
+                    <span class="text-zinc-400 font-medium">${qualitatif}</span>
+                </div>
             </div>
         </div>
 
@@ -74,39 +95,16 @@ function renderRecipeCard(recipe) {
                 Delete
             </button>
         </div>
-    </div>
     `;
 }
 
-function renderRecipeCardEdited(recipe) {
-    return `
-        <div>
-            <div class="flex items-start justify-between gap-2 mb-2">
-                <h4 class="text-lg font-bold text-white leading-tight">${recipe.name}</h4>
-                <span class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/60 whitespace-nowrap">
-                    ${recipe.price} DH
-                </span>
-            </div>
-            
-            <div class="space-y-1.5 mt-3 text-xs">
-                <p class="text-zinc-400 flex justify-between">
-                    <span class="font-medium text-zinc-500">Qualitatif:</span>
-                    <span class="font-semibold text-zinc-200">${QUALITATIF_LIST[recipe.qualitatif - 1]}</span>
-                </p>
-                <p class="text-zinc-400 flex justify-between">
-                    <span class="font-medium text-zinc-500">Category:</span>
-                    <span class="font-semibold text-zinc-200">${CATEGORY_LIST[recipe.category - 1]}</span>
-                </p>
-            </div>
-        </div>
+function renderRecipeCard(recipe) {
+    const category = CATEGORY_LIST[recipe.category - 1];
+    const style = getCategoryStyle(category);
 
-        <div class="flex items-center gap-2 mt-4 pt-3 border-t border-zinc-800/80">
-            <button class="btn-recipt-edit flex-1 text-xs font-semibold py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white transition-colors cursor-pointer disabled:opacity-50 disabled:pointer-events-none">
-                Edit
-            </button>
-            <button class="btn-recipt-delete flex-1 text-xs font-semibold py-1.5 rounded-lg bg-red-800/80 hover:bg-red-800 text-white border border-red-700/50 transition-colors cursor-pointer disabled:opacity-50 disabled:pointer-events-none">
-                Delete
-            </button>
+    return `
+        <div id="${recipe.id}" class="card-wrapper p-4 rounded-xl border ${style.border} bg-zinc-900/90 shadow-lg transition-all duration-200 flex flex-col justify-between">
+            ${renderRecipeCardContent(recipe)}
         </div>
     `;
 }
@@ -209,8 +207,12 @@ button_create_recipt.addEventListener("click", function(event) {
         recipesObject.qualitatif = Number(select_recipt_qualitatif.selectedIndex);
         recipesObject.category = Number(select_recipt_category.selectedIndex);
 
+        const category = CATEGORY_LIST[recipesObject.category - 1];
+        const style = getCategoryStyle(category);
+
         const container = document.getElementById(reciptEditSelect.id);
-        container.innerHTML = renderRecipeCardEdited(recipesObject);
+        container.className = `card-wrapper p-4 rounded-xl border ${style.border} bg-zinc-900/90 shadow-lg transition-all duration-200 flex flex-col justify-between`;
+        container.innerHTML = renderRecipeCardContent(recipesObject);
 
     } else {
 
