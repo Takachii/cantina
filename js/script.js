@@ -65,7 +65,6 @@ function renderRecipeCard(recipe) {
             <p class="text-gray-400"><strong class="text-white font-bold">Qualitatif: </strong>${QUALITATIF_LIST[recipe.qualitatif - 1]}</p>
             <p class="text-gray-400"><strong class="text-white font-bold">Category: </strong>${CATEGORY_LIST[recipe.category - 1]}</p>
             <p class="text-gray-400"><strong class="text-white font-bold">Price: </strong>${recipe.price} DH</p>
-            <p class="text-gray-400"><strong class="text-white font-bold">Status: </strong>${recipe.status ? "Available" : "Already Selected"}</p>
             <div class="flex justify-center-safe mt-4 gap-2">
                 <button class="btn-recipt-edit flex-7 bg-blue-400 hover:bg-blue-300 w-full rounded-md p-1 cursor-pointer disabled:opacity-50 disabled:pointer-events-none">Edit</button>
                 <button class="btn-recipt-delete flex-3 bg-red-600 hover:bg-red-500 w-full rounded-md p-1 cursor-pointer disabled:opacity-50 disabled:pointer-events-none">Delete</button>
@@ -80,7 +79,6 @@ function renderRecipeCardEdited(recipe) {
         <p class="text-gray-400"><strong class="text-white font-bold">Qualitatif: </strong>${QUALITATIF_LIST[recipe.qualitatif - 1]}</p>
         <p class="text-gray-400"><strong class="text-white font-bold">Category: </strong>${CATEGORY_LIST[recipe.category - 1]}</p>
         <p class="text-gray-400"><strong class="text-white font-bold">Price: </strong>${recipe.price} DH</p>
-        <p class="text-gray-400"><strong class="text-white font-bold">Status: </strong>${recipe.status ? "Available" : "Already Selected"}</p>
         <div class="flex justify-center-safe mt-4 gap-2">
             <button class="btn-recipt-edit flex-7 bg-blue-400 hover:bg-blue-300 w-full rounded-md p-1 cursor-pointer disabled:opacity-50 disabled:pointer-events-none">Edit</button>
             <button class="btn-recipt-delete flex-3 bg-red-600 hover:bg-red-500 w-full rounded-md p-1 cursor-pointer disabled:opacity-50 disabled:pointer-events-none">Delete</button>
@@ -186,7 +184,8 @@ container_recipes.addEventListener("click", function(event) {
 
 let activeDay = null;
 let activeCategory = null;
-let activeSelectedElement = null;
+let activeButtonSelected = null;
+let activeCardSelected = null;
 
 const container_days = document.getElementById("container-days");
 container_days.addEventListener("click", function(event) {
@@ -199,7 +198,43 @@ container_days.addEventListener("click", function(event) {
 
     activeDay = container_recipt_days.dataset.day;
     activeCategory = Number(container_recipt_days.dataset.category);
-    activeSelectedElement = selectButton;
+    activeButtonSelected = selectButton;
+
+    if (selectButton.textContent === "Remove") {
+        
+        const reciptObject = getReciptsObjectByID(selectButton.id);
+        if (!reciptObject) return false;
+
+        reciptObject.status = true;
+
+        const container_recipt = document.getElementById(selectButton.id)
+        if (!container_recipt) return false;
+
+        setReciptStatus(reciptObject, true)
+
+        selectButton.id = null;
+        selectButton.textContent = "Select";
+        
+        selectButton.classList.remove("bg-red-600");
+        selectButton.classList.remove("hover:bg-red-500");
+        selectButton.classList.add("bg-blue-400");
+        selectButton.classList.add("hover:bg-blue-300");
+
+        if (activeCardSelected) {
+
+            const name = activeCardSelected.querySelector("p.font-medium");
+            const qualitatif = activeCardSelected.querySelector("p.text-slate-400");
+            const price = activeCardSelected.querySelector("p.text-green-600");
+    
+            if (name) name.textContent = "Empty";
+            if (qualitatif) qualitatif.textContent = "Empty";
+            if (price) price.textContent = `0 DH`;
+
+        }
+
+        return true;
+
+    }
 
     toggleDaysPopout(activeCategory + 1);
 
@@ -230,6 +265,8 @@ button_selectDay_recipt.addEventListener("click", function(event) {
 
         if (card.dataset.day === activeDay && Number(card.dataset.category) === activeCategory) {
 
+            activeCardSelected = card;
+
             const name = card.querySelector("p.font-medium");
             const qualitatif = card.querySelector("p.text-slate-400");
             const price = card.querySelector("p.text-green-600");
@@ -240,13 +277,14 @@ button_selectDay_recipt.addEventListener("click", function(event) {
 
             setReciptStatus(reciptObject, false);
             
-            activeSelectedElement.textContent = "Remove";
+            activeButtonSelected.textContent = "Remove";
 
-            activeSelectedElement.classList.remove("bg-blue-400");
-            activeSelectedElement.classList.remove("hover:bg-blue-300");
-    
-            activeSelectedElement.classList.add("bg-red-600");
-            activeSelectedElement.classList.add("hover:bg-red-500");
+            activeButtonSelected.classList.remove("bg-blue-400");
+            activeButtonSelected.classList.remove("hover:bg-blue-300");
+            activeButtonSelected.classList.add("bg-red-600");
+            activeButtonSelected.classList.add("hover:bg-red-500");
+
+            activeButtonSelected.id = reciptObject.id;
 
             toggleDaysPopout();
 
@@ -255,7 +293,7 @@ button_selectDay_recipt.addEventListener("click", function(event) {
 
     activeDay = null;
     activeCategory = null;
-    activeSelectedElement = null;
+    activeButtonSelected = null;
 
 });
 
@@ -266,9 +304,6 @@ function setReciptStatus(reciptObject, status) {
     reciptObject.status = status;
 
     const container_recipt = document.getElementById(reciptObject.id);
-    container_recipt.classList.remove(status ? "bg-mist-900" : "bg-slate-800");
-    container_recipt.classList.add(status ? "bg-slate-900" : "bg-mist-800");
-
     const buttons = container_recipt.querySelectorAll("button");
 
     buttons.forEach(button => {
