@@ -86,6 +86,16 @@ function renderRecipeCardEdited(recipe) {
     `;
 }
 
+function updateDashboard() {
+
+    const dash_total_recipts = document.getElementById("dash-total-recipts");
+    const dash_days_ready = document.getElementById("dash-days-ready");
+    const dash_weekly_average = document.getElementById("dash-weekly-average");
+
+    dash_total_recipts.textContent = `Total Recipes: ${reciptsItems.length}`
+
+}
+
 const button_create_recipt = document.getElementById("btn-create-recipt");
 
 button_create_recipt.addEventListener("click", function(event) {
@@ -148,6 +158,8 @@ button_create_recipt.addEventListener("click", function(event) {
         const container = document.getElementById("recipes-grid");
         container.innerHTML += renderRecipeCard(reciptCache);
 
+        updateDashboard();
+
     }
 
     document.getElementById("popout-menu").classList.toggle("hidden");
@@ -178,6 +190,7 @@ container_recipes.addEventListener("click", function(event) {
     } else if (event.target.classList.contains("btn-recipt-delete")) {
         deleteReciptsObjectByID(card.id)
         card.remove();
+        updateDashboard();
     }
 
 });
@@ -185,7 +198,6 @@ container_recipes.addEventListener("click", function(event) {
 let activeDay = null;
 let activeCategory = null;
 let activeButtonSelected = null;
-let activeCardSelected = null;
 
 const container_days = document.getElementById("container-days");
 container_days.addEventListener("click", function(event) {
@@ -220,17 +232,13 @@ container_days.addEventListener("click", function(event) {
         selectButton.classList.add("bg-blue-400");
         selectButton.classList.add("hover:bg-blue-300");
 
-        if (activeCardSelected) {
+        const name = container_recipt_days.querySelector("p.font-medium");
+        const qualitatif = container_recipt_days.querySelector("p.text-slate-400");
+        const price = container_recipt_days.querySelector("p.text-green-600");
 
-            const name = activeCardSelected.querySelector("p.font-medium");
-            const qualitatif = activeCardSelected.querySelector("p.text-slate-400");
-            const price = activeCardSelected.querySelector("p.text-green-600");
-    
-            if (name) name.textContent = "Empty";
-            if (qualitatif) qualitatif.textContent = "Empty";
-            if (price) price.textContent = `0 DH`;
-
-        }
+        if (name) name.textContent = "Empty";
+        if (qualitatif) qualitatif.textContent = "Empty";
+        if (price) price.textContent = `0 DH`;
 
         return true;
 
@@ -265,14 +273,12 @@ button_selectDay_recipt.addEventListener("click", function(event) {
 
         if (card.dataset.day === activeDay && Number(card.dataset.category) === activeCategory) {
 
-            activeCardSelected = card;
-
             const name = card.querySelector("p.font-medium");
             const qualitatif = card.querySelector("p.text-slate-400");
             const price = card.querySelector("p.text-green-600");
 
             if (name) name.textContent = reciptObject.name;
-            if (qualitatif) qualitatif.textContent = QUALITATIF_LIST[reciptObject.qualitatif];
+            if (qualitatif) qualitatif.textContent = QUALITATIF_LIST[reciptObject.qualitatif - 1];
             if (price) price.textContent = `${reciptObject.price} DH`;
 
             setReciptStatus(reciptObject, false);
@@ -311,3 +317,5 @@ function setReciptStatus(reciptObject, status) {
     });
 
 }
+
+updateDashboard();
