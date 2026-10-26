@@ -307,9 +307,9 @@ container_days.addEventListener("click", function(event) {
         selectButton.classList.add("bg-blue-400");
         selectButton.classList.add("hover:bg-blue-300");
 
-        const name = container_recipt_days.querySelector("p.text-lg");
-        const qualitatif = container_recipt_days.querySelector("p.text-xs");
-        const price = container_recipt_days.querySelector("p.text-lg");
+        const name = container_recipt_days.querySelector(".cont-days-name");
+        const qualitatif = container_recipt_days.querySelector(".cont-days-qualitatif");
+        const price = container_recipt_days.querySelector(".cont-days-category");
 
         if (name) name.textContent = "Empty";
         if (qualitatif) qualitatif.textContent = "Empty";
@@ -361,9 +361,9 @@ button_selectDay_recipt.addEventListener("click", function(event) {
                 }
             });
 
-            const name = card.querySelector("p.text-lg");
-            const qualitatif = card.querySelector("p.text-xs");
-            const price = card.querySelector("p.text-lg");
+            const name = card.querySelector(".cont-days-name");
+            const qualitatif = card.querySelector(".cont-days-qualitatif");
+            const price = card.querySelector(".cont-days-category");
 
             console.log(card)
 
