@@ -45,28 +45,68 @@ function toggleDaysPopout(categoryID) {
 
 function renderRecipeCard(recipe) {
     return `
-    <div id="${recipe.id}" class="card-wrapper p-4 rounded-md border border-slate-700 bg-slate-800">
-        <h4 class="text-xl font-bold mb-2.5">${recipe.name}</h4>
-            <p class="text-gray-400"><strong class="text-white font-bold">Qualitatif: </strong>${QUALITATIF_LIST[recipe.qualitatif - 1]}</p>
-            <p class="text-gray-400"><strong class="text-white font-bold">Category: </strong>${CATEGORY_LIST[recipe.category - 1]}</p>
-            <p class="text-gray-400"><strong class="text-white font-bold">Price: </strong>${recipe.price} DH</p>
-            <div class="flex justify-center-safe mt-4 gap-2">
-                <button class="btn-recipt-edit flex-7 bg-blue-400 hover:bg-blue-300 w-full rounded-md p-1 cursor-pointer disabled:opacity-50 disabled:pointer-events-none">Edit</button>
-                <button class="btn-recipt-delete flex-3 bg-red-600 hover:bg-red-500 w-full rounded-md p-1 cursor-pointer disabled:opacity-50 disabled:pointer-events-none">Delete</button>
+    <div id="${recipe.id}" class="card-wrapper p-4 rounded-xl border border-zinc-800 bg-zinc-900/90 shadow-lg flex flex-col justify-between">
+        <div>
+            <div class="flex items-start justify-between gap-2 mb-2">
+                <h4 class="text-lg font-bold text-white leading-tight">${recipe.name}</h4>
+                <span class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/60 whitespace-nowrap">
+                    ${recipe.price} DH
+                </span>
+            </div>
+            
+            <div class="space-y-1.5 mt-3 text-xs">
+                <p class="text-zinc-400 flex justify-between">
+                    <span class="font-medium text-zinc-500">Qualitatif:</span>
+                    <span class="font-semibold text-zinc-200">${QUALITATIF_LIST[recipe.qualitatif - 1]}</span>
+                </p>
+                <p class="text-zinc-400 flex justify-between">
+                    <span class="font-medium text-zinc-500">Category:</span>
+                    <span class="font-semibold text-zinc-200">${CATEGORY_LIST[recipe.category - 1]}</span>
+                </p>
             </div>
         </div>
+
+        <div class="flex items-center gap-2 mt-4 pt-3 border-t border-zinc-800/80">
+            <button class="btn-recipt-edit flex-1 text-xs font-semibold py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white transition-colors cursor-pointer disabled:opacity-50 disabled:pointer-events-none">
+                Edit
+            </button>
+            <button class="btn-recipt-delete flex-1 text-xs font-semibold py-1.5 rounded-lg bg-red-800/80 hover:bg-red-800 text-white border border-red-700/50 transition-colors cursor-pointer disabled:opacity-50 disabled:pointer-events-none">
+                Delete
+            </button>
+        </div>
+    </div>
     `;
 }
 
 function renderRecipeCardEdited(recipe) {
     return `
-        <h4 class="text-xl font-bold mb-2.5">${recipe.name}</h4>
-        <p class="text-gray-400"><strong class="text-white font-bold">Qualitatif: </strong>${QUALITATIF_LIST[recipe.qualitatif - 1]}</p>
-        <p class="text-gray-400"><strong class="text-white font-bold">Category: </strong>${CATEGORY_LIST[recipe.category - 1]}</p>
-        <p class="text-gray-400"><strong class="text-white font-bold">Price: </strong>${recipe.price} DH</p>
-        <div class="flex justify-center-safe mt-4 gap-2">
-            <button class="btn-recipt-edit flex-7 bg-blue-400 hover:bg-blue-300 w-full rounded-md p-1 cursor-pointer disabled:opacity-50 disabled:pointer-events-none">Edit</button>
-            <button class="btn-recipt-delete flex-3 bg-red-600 hover:bg-red-500 w-full rounded-md p-1 cursor-pointer disabled:opacity-50 disabled:pointer-events-none">Delete</button>
+        <div>
+            <div class="flex items-start justify-between gap-2 mb-2">
+                <h4 class="text-lg font-bold text-white leading-tight">${recipe.name}</h4>
+                <span class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/60 whitespace-nowrap">
+                    ${recipe.price} DH
+                </span>
+            </div>
+            
+            <div class="space-y-1.5 mt-3 text-xs">
+                <p class="text-zinc-400 flex justify-between">
+                    <span class="font-medium text-zinc-500">Qualitatif:</span>
+                    <span class="font-semibold text-zinc-200">${QUALITATIF_LIST[recipe.qualitatif - 1]}</span>
+                </p>
+                <p class="text-zinc-400 flex justify-between">
+                    <span class="font-medium text-zinc-500">Category:</span>
+                    <span class="font-semibold text-zinc-200">${CATEGORY_LIST[recipe.category - 1]}</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2 mt-4 pt-3 border-t border-zinc-800/80">
+            <button class="btn-recipt-edit flex-1 text-xs font-semibold py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white transition-colors cursor-pointer disabled:opacity-50 disabled:pointer-events-none">
+                Edit
+            </button>
+            <button class="btn-recipt-delete flex-1 text-xs font-semibold py-1.5 rounded-lg bg-red-800/80 hover:bg-red-800 text-white border border-red-700/50 transition-colors cursor-pointer disabled:opacity-50 disabled:pointer-events-none">
+                Delete
+            </button>
         </div>
     `;
 }
