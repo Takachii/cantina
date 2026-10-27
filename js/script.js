@@ -181,7 +181,7 @@ button_create_recipt.addEventListener("click", function(event) {
     }
 
     const input_recipt_price = document.getElementById("input-recip-price");
-    if (Number(input_recipt_price.value) <= 0) {
+    if (isNaN(Number(input_recipt_price.value)) || Number(input_recipt_price.value) <= 0) {
         document.getElementById("span-recipt-notification").classList.remove("hidden");
         document.getElementById("span-recipt-notification").textContent = "Pelase enter valid price !";
         return false;
