@@ -1,5 +1,5 @@
-let reciptsDays = JSON.parse(localStorage.getItem("reciptsDays")) || [];
-let reciptsItems = JSON.parse(localStorage.getItem("reciptsItems")) || [];
+const reciptsDays = JSON.parse(localStorage.getItem("reciptsDays")) || [];
+const reciptsItems = JSON.parse(localStorage.getItem("reciptsItems")) || [];
 
 const QUALITATIF_LIST = ["Bio", "Végétarien", "Classique"];
 const CATEGORY_LIST = ["Entrée", "Plat Principal", "Dessert"];
