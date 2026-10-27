@@ -83,6 +83,11 @@ function renderRecipeCardContent(recipe) {
     const style = getCategoryStyle(category);
 
     return `
+
+        <div class="${recipe.day ? "" : "hidden"} flex justify-center mb-4">
+            <p class="rounded-md border-b ${category === "Entrée" ? "border-sky-500" : category === "Plat Principal" ? "border-amber-500" : "border-purple-500"} text-white font-bold">Assigné: ${ recipe.day || "(Not Found)" }</p>
+        </div>
+
         <div>
             <div class="flex items-start justify-between gap-2 mb-2">
                 <h4 class="text-lg font-bold text-white leading-tight">${recipe.name}</h4>
@@ -337,6 +342,13 @@ container_days.addEventListener("click", function(event) {
             }
         });
 
+        reciptObject.day = null;
+
+        const category = CATEGORY_LIST[activeCategory];
+        const style = getCategoryStyle(category);
+        container_recipt.className = `card-wrapper p-4 rounded-xl border ${style.border} bg-zinc-900/90 shadow-lg transition-all duration-200 flex flex-col justify-between`;
+        container_recipt.innerHTML = renderRecipeCardContent(reciptObject);
+
         updateDashboard();
 
         return true;
@@ -373,6 +385,15 @@ button_selectDay_recipt.addEventListener("click", function(event) {
         category: activeCategory,
         qualitatif: reciptObject.qualitatif
     });
+
+    reciptObject.day = activeDay;
+
+    const category = CATEGORY_LIST[activeCategory];
+    const style = getCategoryStyle(category);
+
+    const container_recipt = document.getElementById(reciptID);
+    container_recipt.className = `card-wrapper p-4 rounded-xl border ${style.border} bg-zinc-900/90 shadow-lg transition-all duration-200 flex flex-col justify-between`;
+    container_recipt.innerHTML = renderRecipeCardContent(reciptObject);
 
     document.querySelectorAll("[data-day]").forEach(card => {
         if (card.dataset.day === activeDay && Number(card.dataset.category) === activeCategory) {
