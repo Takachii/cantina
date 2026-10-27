@@ -57,7 +57,7 @@
                     <div class="bg-zinc-900 border border-zinc-800 rounded-xl shadow-2xl w-full max-w-md overflow-hidden">
 
                         <div class="p-4 border-b border-zinc-800 bg-zinc-900/50 flex justify-between items-center">
-                            <h3 class="text-lg font-bold text-white">Add Items Recipt Reserve</h3>
+                            <h2 class="text-lg font-bold text-white">Add Items Recipt Reserve</h2>
                         </div>
 
                         <form class="grid gap-3 p-4">
@@ -68,17 +68,17 @@
                             <input id="input-recip-price" class="font-medium p-2.5 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-400 focus:outline-none focus:border-emerald-500" type="number" min="1" step="1" placeholder="Price" required>
 
                             <select id="select-recip-qualitatif" class="font-medium rounded-lg p-2.5 bg-zinc-800 border border-zinc-700 text-zinc-100 focus:outline-none focus:border-emerald-500" required>
-                                <option disabled selected>Please choose Qualitatif</option>
-                                <option>Bio</option>
-                                <option>Végétarien</option>
-                                <option>Classique</option>
+                                <option value="empty-select" disabled selected>Please choose Qualitatif</option>
+                                <option value="Bio">Bio</option>
+                                <option value="Végétarien">Végétarien</option>
+                                <option value="Classique">Classique</option>
                             </select>
 
                             <select id="select-recip-category" class="font-medium rounded-lg p-2.5 bg-zinc-800 border border-zinc-700 text-zinc-100 focus:outline-none focus:border-emerald-500" required>
-                                <option disabled selected>Please choose Category</option>
-                                <option>Entrée</option>
-                                <option>Plat Principal</option>
-                                <option>Dessert</option>
+                                <option value="empty-select" disabled selected>Please choose Category</option>
+                                <option value="Entrée">Entrée</option>
+                                <option value="Plat Principal">Plat Principal</option>
+                                <option value="Dessert">Dessert</option>
                             </select>
 
                             <div class="flex gap-2 mt-2">
@@ -118,7 +118,7 @@
                     <div class="bg-zinc-900 border border-zinc-800 rounded-xl shadow-2xl w-full max-w-md overflow-hidden">
 
                         <div class="p-4 border-b border-zinc-800 bg-zinc-900/50">
-                            <h3 class="text-lg font-bold text-white">Select Recipt Reserve</h3>
+                            <h2 class="text-lg font-bold text-white">Select Recipt Reserve</h2>
                         </div>
 
                         <form class="grid gap-3 p-4">

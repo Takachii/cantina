@@ -187,6 +187,22 @@ function getTotalDaysReady() {
 
 }
 
+function getAverageWeeklyPrice() {
+    
+    let totalSum = 0;
+
+    for (const item of reciptsDays) {
+        const recipe = getReciptsObjectByID(item.reciptID);
+        if (recipe) {
+            totalSum += recipe.price;
+        }
+    }
+
+    const dailyAverage = totalSum / 5;
+    return dailyAverage.toFixed(2);
+
+}
+
 function updateDashboard() {
 
     const dash_total_recipts = document.getElementById("dash-total-recipts");
@@ -195,7 +211,8 @@ function updateDashboard() {
     const dash_days_ready = document.getElementById("dash-days-ready");
     dash_days_ready.textContent = `Days Ready: ${getTotalDaysReady()}/5`
 
-    // const dash_weekly_average = document.getElementById("dash-weekly-average");
+    const dash_weekly_average = document.getElementById("dash-weekly-average");
+    dash_weekly_average.textContent = `Weekly Average Cost: ${getAverageWeeklyPrice()} DH`
 
     const span_vegetarian = document.getElementById("span-vegetarian-status");
     if (span_vegetarian) {
@@ -486,15 +503,4 @@ function setReciptStatus(reciptObject, status) {
 
 }
 
-function loadStorageItems() {
-
-    for (const recipt of reciptsItems) {
-        const container_recipt = document.getElementById("recipts-grid");
-        container_recipt.innerHTML += renderReciptCard(recipt);
-    }
-
-    updateDashboard();
-
-}
-
-loadStorageItems()
+updateDashboard();
