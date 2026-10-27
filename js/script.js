@@ -112,16 +112,6 @@ function renderRecipeCardContent(recipe) {
     `;
 }
 
-function updateDashboard() {
-
-    const dash_total_recipts = document.getElementById("dash-total-recipts");
-    const dash_days_ready = document.getElementById("dash-days-ready");
-    const dash_weekly_average = document.getElementById("dash-weekly-average");
-
-    dash_total_recipts.textContent = `Total Recipes: ${reciptsItems.length}`;
-
-}
-
 function getReciptsObjectByID(id) {
     for (let i=0; i<reciptsItems.length; i++) {
         if (reciptsItems[i].id === id) return reciptsItems[i];
@@ -158,12 +148,33 @@ function getTotalDayPrice(day) {
 
     for (const value of reciptsDays) {
         const reciptObject = getReciptsObjectByID(value.reciptID);
-        if (reciptObject) {
+        if (reciptObject)
             if (value.day === day) total += reciptObject.price;
-        }
     }
 
     return total;
+
+}
+
+function getVegetarianStatus() {
+    for (const value of reciptsDays) 
+        if (value.qualitatif === 2) return true;
+}
+
+function updateDashboard() {
+
+    const dash_total_recipts = document.getElementById("dash-total-recipts");
+    dash_total_recipts.textContent = `Total Recipes: ${reciptsItems.length}`;
+    
+    // const dash_days_ready = document.getElementById("dash-days-ready");
+    // const dash_weekly_average = document.getElementById("dash-weekly-average");
+
+    const span_vegetarian = document.getElementById("span-vegetarian-status");
+    if (span_vegetarian) {
+        const status = getVegetarianStatus();
+        span_vegetarian.className = status ? "bg-emerald-950 text-white border border-emerald-600/60 inline-block mt-2 px-3 py-1 text-xs font-semibold rounded-full shadow-sm" : "bg-red-950 text-white border border-red-600/60 inline-block mt-2 px-3 py-1 text-xs font-semibold rounded-full shadow-sm"
+        span_vegetarian.textContent = status ? "Vegetarian Dish (ACTIVE)" : "Vegetarian Dish (Not Selected)"
+    }
 
 }
 
@@ -326,6 +337,8 @@ container_days.addEventListener("click", function(event) {
             }
         });
 
+        updateDashboard();
+
         return true;
 
     }
@@ -344,7 +357,6 @@ button_selectDay_recipt.addEventListener("click", function(event) {
 
     const reciptID = select_reciptDay.options[select_reciptDay.selectedIndex].id;
     const reciptObject = getReciptsObjectByID(reciptID);
-
     if (!reciptObject) return false;
 
     if (getTotalDayPrice(activeDay) + reciptObject.price > 50) {
@@ -391,6 +403,7 @@ button_selectDay_recipt.addEventListener("click", function(event) {
             activeButtonSelected.id = generatedID;
 
             toggleDaysPopout();
+            updateDashboard();
 
         }
     });
