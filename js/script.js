@@ -13,7 +13,7 @@ function togglePopout() {
 
     document.getElementById("span-recipt-notification").classList.add("hidden");
 
-    document.getElementById("btn-create-recipt").textContent = "Create Recipe Reserve";
+    document.getElementById("btn-create-recipt").textContent = "Create Recipt Reserve";
     document.getElementById("input-recip-name").value = "";
     document.getElementById("input-recip-price").value = "";
     document.getElementById("select-recip-qualitatif").selectedIndex = 0;
@@ -64,35 +64,35 @@ function getCategoryStyle(category) {
     }
 }
 
-function renderRecipeCard(recipe) {
+function renderReciptCard(recipt) {
 
-    const category = CATEGORY_LIST[recipe.category - 1];
+    const category = CATEGORY_LIST[recipt.category - 1];
     const style = getCategoryStyle(category);
 
     return `
-        <div id="${recipe.id}" class="card-wrapper p-4 rounded-xl border ${style.border} bg-zinc-900/90 shadow-lg transition-all duration-200 flex flex-col justify-between">
-            ${renderRecipeCardContent(recipe)}
+        <div id="${recipt.id}" class="card-wrapper p-4 rounded-xl border ${style.border} bg-zinc-900/90 shadow-lg transition-all duration-200 flex flex-col justify-between">
+            ${renderReciptCardContent(recipt)}
         </div>
     `;
 }
 
-function renderRecipeCardContent(recipe) {
+function renderReciptCardContent(recipt) {
     
-    const qualitatif = QUALITATIF_LIST[recipe.qualitatif - 1];
-    const category = CATEGORY_LIST[recipe.category - 1];
+    const qualitatif = QUALITATIF_LIST[recipt.qualitatif - 1];
+    const category = CATEGORY_LIST[recipt.category - 1];
     const style = getCategoryStyle(category);
 
     return `
 
-        <div class="${recipe.day ? "" : "hidden"} flex justify-center mb-4">
-            <p class="rounded-md border-b ${category === "Entrée" ? "border-sky-500" : category === "Plat Principal" ? "border-amber-500" : "border-purple-500"} text-white font-bold">Assigné: ${ recipe.day || "(Not Found)" }</p>
+        <div class="${recipt.day ? "" : "hidden"} flex justify-center mb-4">
+            <p class="rounded-md border-b ${category === "Entrée" ? "border-sky-500" : category === "Plat Principal" ? "border-amber-500" : "border-purple-500"} text-white font-bold">Assigné: ${ recipt.day || "(Not Found)" }</p>
         </div>
 
         <div>
             <div class="flex items-start justify-between gap-2 mb-2">
-                <h4 class="text-lg font-bold text-white leading-tight">${recipe.name}</h4>
+                <h4 class="text-lg font-bold text-white leading-tight">${recipt.name}</h4>
                 <span class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/60 whitespace-nowrap">
-                    ${recipe.price} DH
+                    ${recipt.price} DH
                 </span>
             </div>
             
@@ -107,10 +107,10 @@ function renderRecipeCardContent(recipe) {
         </div>
 
         <div class="flex items-center gap-2 mt-4 pt-3 border-t border-zinc-800/80">
-            <button class="btn-recipt-edit flex-1 text-xs font-semibold py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white transition-colors cursor-pointer disabled:opacity-50 disabled:pointer-events-none">
+            <button ${recipt.day ? "disabled" : ""} class="btn-recipt-edit flex-1 text-xs font-semibold py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white transition-colors cursor-pointer disabled:opacity-50 disabled:pointer-events-none">
                 Edit
             </button>
-            <button class="btn-recipt-delete flex-1 text-xs font-semibold py-1.5 rounded-lg bg-red-800/80 hover:bg-red-800 text-white border border-red-700/50 transition-colors cursor-pointer disabled:opacity-50 disabled:pointer-events-none">
+            <button ${recipt.day ? "disabled" : ""} class="btn-recipt-delete flex-1 text-xs font-semibold py-1.5 rounded-lg bg-red-800/80 hover:bg-red-800 text-white border border-red-700/50 transition-colors cursor-pointer disabled:opacity-50 disabled:pointer-events-none">
                 Delete
             </button>
         </div>
@@ -171,9 +171,9 @@ function getTotalDaysReady() {
     const dayCounts = {};
     let totalResult = 0;
 
-    for (const recipe of reciptsItems) {
-        if (recipe.day) {
-            dayCounts[recipe.day] = (dayCounts[recipe.day] || 0) + 1;
+    for (const recipt of reciptsItems) {
+        if (recipt.day) {
+            dayCounts[recipt.day] = (dayCounts[recipt.day] || 0) + 1;
         }
     }
 
@@ -190,7 +190,7 @@ function getTotalDaysReady() {
 function updateDashboard() {
 
     const dash_total_recipts = document.getElementById("dash-total-recipts");
-    dash_total_recipts.textContent = `Total Recipes: ${reciptsItems.length}`;
+    dash_total_recipts.textContent = `Total Recipts: ${reciptsItems.length}`;
     
     const dash_days_ready = document.getElementById("dash-days-ready");
     dash_days_ready.textContent = `Days Ready: ${getTotalDaysReady()}/5`
@@ -240,21 +240,21 @@ button_create_recipt.addEventListener("click", function(event) {
         return false;
     }
 
-    if (button_create_recipt.textContent === "Update Recipe Reserve") {
+    if (button_create_recipt.textContent === "Update Recipt Reserve") {
 
-        const recipesObject = getReciptsObjectByID(reciptEditSelect.id);
+        const reciptsObject = getReciptsObjectByID(reciptEditSelect.id);
 
-        recipesObject.name = String(input_recipt_name.value);
-        recipesObject.price = Number(input_recipt_price.value);
-        recipesObject.qualitatif = Number(select_recipt_qualitatif.selectedIndex);
-        recipesObject.category = Number(select_recipt_category.selectedIndex);
+        reciptsObject.name = String(input_recipt_name.value);
+        reciptsObject.price = Number(input_recipt_price.value);
+        reciptsObject.qualitatif = Number(select_recipt_qualitatif.selectedIndex);
+        reciptsObject.category = Number(select_recipt_category.selectedIndex);
 
-        const category = CATEGORY_LIST[recipesObject.category - 1];
+        const category = CATEGORY_LIST[reciptsObject.category - 1];
         const style = getCategoryStyle(category);
 
         const container = document.getElementById(reciptEditSelect.id);
         container.className = `card-wrapper p-4 rounded-xl border ${style.border} bg-zinc-900/90 shadow-lg transition-all duration-200 flex flex-col justify-between`;
-        container.innerHTML = renderRecipeCardContent(recipesObject);
+        container.innerHTML = renderReciptCardContent(reciptsObject);
 
     } else {
 
@@ -269,8 +269,8 @@ button_create_recipt.addEventListener("click", function(event) {
 
         reciptsItems.push(reciptCache);
 
-        const container = document.getElementById("recipes-grid");
-        container.innerHTML += renderRecipeCard(reciptCache);
+        const container = document.getElementById("recipts-grid");
+        container.innerHTML += renderReciptCard(reciptCache);
 
         updateDashboard();
 
@@ -280,9 +280,9 @@ button_create_recipt.addEventListener("click", function(event) {
 
 });
 
-const container_recipes = document.getElementById("recipes-grid");
+const container_recipts = document.getElementById("recipts-grid");
 
-container_recipes.addEventListener("click", function(event) {
+container_recipts.addEventListener("click", function(event) {
 
     const card = event.target.closest(".card-wrapper");
 
@@ -291,20 +291,28 @@ container_recipes.addEventListener("click", function(event) {
         const menu = document.getElementById("popout-menu");
         menu.classList.toggle("hidden");
 
-        document.getElementById("btn-create-recipt").textContent = "Update Recipe Reserve";
+        document.getElementById("btn-create-recipt").textContent = "Update Recipt Reserve";
 
-        const recipesObject = getReciptsObjectByID(card.id);
-        document.getElementById("input-recip-name").value = recipesObject.name;
-        document.getElementById("input-recip-price").value = recipesObject.price;
-        document.getElementById("select-recip-qualitatif").selectedIndex = recipesObject.qualitatif;
-        document.getElementById("select-recip-category").selectedIndex = recipesObject.category;
+        const reciptsObject = getReciptsObjectByID(card.id);
+        document.getElementById("input-recip-name").value = reciptsObject.name;
+        document.getElementById("input-recip-price").value = reciptsObject.price;
+        document.getElementById("select-recip-qualitatif").selectedIndex = reciptsObject.qualitatif;
+        document.getElementById("select-recip-category").selectedIndex = reciptsObject.category;
 
         reciptEditSelect = card;
 
     } else if (event.target.classList.contains("btn-recipt-delete")) {
+
+        if (event.target.textContent !== "Confirme Delete") {
+            event.target.textContent = "Confirme Delete";
+            return false;
+        }
+
         removeReciptsObjectByID(card.id)
         card.remove();
+
         updateDashboard();
+
     }
 
 });
@@ -324,9 +332,14 @@ container_days.addEventListener("click", function(event) {
 
     activeDay = container_recipt_days.dataset.day;
     activeCategory = Number(container_recipt_days.dataset.category);
-    activeButtonSelected = selectButton;
 
+    // if (activeButtonSelected) activeButtonSelected.textContent
+
+    activeButtonSelected = selectButton;
+    
     if (selectButton.textContent === "Remove") {
+        selectButton.textContent = "Confirme Delete";
+    } else if (selectButton.textContent === "Confirme Delete") {
 
         const reciptDayObject = getReciptsDaysObjectByID(selectButton.id)
         if (!reciptDayObject) return false;
@@ -370,15 +383,15 @@ container_days.addEventListener("click", function(event) {
         const category = CATEGORY_LIST[activeCategory];
         const style = getCategoryStyle(category);
         container_recipt.className = `card-wrapper p-4 rounded-xl border ${style.border} bg-zinc-900/90 shadow-lg transition-all duration-200 flex flex-col justify-between`;
-        container_recipt.innerHTML = renderRecipeCardContent(reciptObject);
+        container_recipt.innerHTML = renderReciptCardContent(reciptObject);
 
         updateDashboard();
 
         return true;
 
+    } else {
+        toggleDaysPopout(activeCategory + 1);
     }
-
-    toggleDaysPopout(activeCategory + 1);
 
 });
 
@@ -416,7 +429,7 @@ button_selectDay_recipt.addEventListener("click", function(event) {
 
     const container_recipt = document.getElementById(reciptID);
     container_recipt.className = `card-wrapper p-4 rounded-xl border ${style.border} bg-zinc-900/90 shadow-lg transition-all duration-200 flex flex-col justify-between`;
-    container_recipt.innerHTML = renderRecipeCardContent(reciptObject);
+    container_recipt.innerHTML = renderReciptCardContent(reciptObject);
 
     document.querySelectorAll("[data-day]").forEach(card => {
         if (card.dataset.day === activeDay && Number(card.dataset.category) === activeCategory) {
@@ -473,4 +486,15 @@ function setReciptStatus(reciptObject, status) {
 
 }
 
-updateDashboard();
+function loadStorageItems() {
+
+    for (const recipt of reciptsItems) {
+        const container_recipt = document.getElementById("recipts-grid");
+        container_recipt.innerHTML += renderReciptCard(recipt);
+    }
+
+    updateDashboard();
+
+}
+
+loadStorageItems()
