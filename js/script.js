@@ -166,12 +166,35 @@ function getVegetarianStatus() {
         if (value.qualitatif === 2) return true;
 }
 
+function getTotalDaysReady() {
+
+    const dayCounts = {};
+    let totalResult = 0;
+
+    for (const recipe of reciptsItems) {
+        if (recipe.day) {
+            dayCounts[recipe.day] = (dayCounts[recipe.day] || 0) + 1;
+        }
+    }
+
+    for (const day in dayCounts) {
+        if (dayCounts[day] === 3) {
+            totalResult++;
+        }
+    }
+
+    return totalResult;
+
+}
+
 function updateDashboard() {
 
     const dash_total_recipts = document.getElementById("dash-total-recipts");
     dash_total_recipts.textContent = `Total Recipes: ${reciptsItems.length}`;
     
-    // const dash_days_ready = document.getElementById("dash-days-ready");
+    const dash_days_ready = document.getElementById("dash-days-ready");
+    dash_days_ready.textContent = `Days Ready: ${getTotalDaysReady()}/5`
+
     // const dash_weekly_average = document.getElementById("dash-weekly-average");
 
     const span_vegetarian = document.getElementById("span-vegetarian-status");
