@@ -1,5 +1,5 @@
-const reciptsDays = JSON.parse(localStorage.getItem("days")) || [];
-const reciptsItems = JSON.parse(localStorage.getItem("recipts")) || [];
+const reciptsDays = [];
+const reciptsItems = [];
 
 const QUALITATIF_LIST = ["Bio", "Végétarien", "Classique"];
 const CATEGORY_LIST = ["Entrée", "Plat Principal", "Dessert"]
@@ -107,10 +107,10 @@ function renderReciptCardContent(recipt) {
         </div>
 
         <div class="flex items-center gap-2 mt-4 pt-3 border-t border-zinc-800/80">
-            <button class="btn-recipt-edit flex-1 text-xs font-semibold py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white transition-colors cursor-pointer disabled:opacity-50 disabled:pointer-events-none">
+            <button ${recipt.day ? "disabled" : ""} class="btn-recipt-edit flex-1 text-xs font-semibold py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white transition-colors cursor-pointer disabled:opacity-50 disabled:pointer-events-none">
                 Edit
             </button>
-            <button class="btn-recipt-delete flex-1 text-xs font-semibold py-1.5 rounded-lg bg-red-800/80 hover:bg-red-800 text-white border border-red-700/50 transition-colors cursor-pointer disabled:opacity-50 disabled:pointer-events-none">
+            <button ${recipt.day ? "disabled" : ""} class="btn-recipt-delete flex-1 text-xs font-semibold py-1.5 rounded-lg bg-red-800/80 hover:bg-red-800 text-white border border-red-700/50 transition-colors cursor-pointer disabled:opacity-50 disabled:pointer-events-none">
                 Delete
             </button>
         </div>
@@ -268,7 +268,6 @@ button_create_recipt.addEventListener("click", function(event) {
         }
 
         reciptsItems.push(reciptCache);
-        localStorage.setItem("recipts", JSON.stringify(reciptCache))
 
         const container = document.getElementById("recipts-grid");
         container.innerHTML += renderReciptCard(reciptCache);
@@ -303,9 +302,17 @@ container_recipts.addEventListener("click", function(event) {
         reciptEditSelect = card;
 
     } else if (event.target.classList.contains("btn-recipt-delete")) {
+
+        if (event.target.textContent !== "Confirme Delete") {
+            event.target.textContent = "Confirme Delete";
+            return false;
+        }
+
         removeReciptsObjectByID(card.id)
         card.remove();
+
         updateDashboard();
+
     }
 
 });
@@ -325,9 +332,14 @@ container_days.addEventListener("click", function(event) {
 
     activeDay = container_recipt_days.dataset.day;
     activeCategory = Number(container_recipt_days.dataset.category);
-    activeButtonSelected = selectButton;
 
+    // if (activeButtonSelected) activeButtonSelected.textContent
+
+    activeButtonSelected = selectButton;
+    
     if (selectButton.textContent === "Remove") {
+        selectButton.textContent = "Confirme Delete";
+    } else if (selectButton.textContent === "Confirme Delete") {
 
         const reciptDayObject = getReciptsDaysObjectByID(selectButton.id)
         if (!reciptDayObject) return false;
@@ -367,7 +379,6 @@ container_days.addEventListener("click", function(event) {
         });
 
         reciptObject.day = null;
-        localStorage.setItem("recipts", JSON.stringify(reciptObject))
 
         const category = CATEGORY_LIST[activeCategory];
         const style = getCategoryStyle(category);
@@ -378,9 +389,9 @@ container_days.addEventListener("click", function(event) {
 
         return true;
 
+    } else {
+        toggleDaysPopout(activeCategory + 1);
     }
-
-    toggleDaysPopout(activeCategory + 1);
 
 });
 
@@ -411,10 +422,7 @@ button_selectDay_recipt.addEventListener("click", function(event) {
         qualitatif: reciptObject.qualitatif
     });
 
-    localStorage.setItem("days", JSON.stringify(reciptsDays))
-
     reciptObject.day = activeDay;
-    localStorage.setItem("recipts", JSON.stringify(reciptObject))
 
     const category = CATEGORY_LIST[activeCategory];
     const style = getCategoryStyle(category);
@@ -480,9 +488,13 @@ function setReciptStatus(reciptObject, status) {
 
 function loadStorageItems() {
 
-    for (const recipt of reciptsItems)
-        renderReciptCard(recipt);
+    for (const recipt of reciptsItems) {
+        const container_recipt = document.getElementById("recipts-grid");
+        container_recipt.innerHTML += renderReciptCard(recipt);
+    }
+
+    updateDashboard();
 
 }
 
-updateDashboard();
+loadStorageItems()
