@@ -157,7 +157,7 @@ function getTotalDayPrice(day) {
             if (value.day === day) total += reciptObject.price;
     }
 
-    return total;
+    return total.toFixed(2);
 
 }
 
