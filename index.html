@@ -58,6 +58,7 @@
 
                         <div class="p-4 border-b border-zinc-800 bg-zinc-900/50 flex justify-between items-center">
                             <h2 class="text-lg font-bold text-white">Add Items Recipt Reserve</h2>
+                            <button onclick="togglePopout()" type="button" class="cursor-pointer">x</button>
                         </div>
 
                         <form class="grid gap-3 p-4">
@@ -117,8 +118,9 @@
                 <div id="popout-days" class="hidden flex fixed inset-0 bg-black/75 backdrop-blur-xs items-center justify-center z-50">
                     <div class="bg-zinc-900 border border-zinc-800 rounded-xl shadow-2xl w-full max-w-md overflow-hidden">
 
-                        <div class="p-4 border-b border-zinc-800 bg-zinc-900/50">
+                        <div class="flex justify-between p-4 border-b border-zinc-800 bg-zinc-900/50">
                             <h2 class="text-lg font-bold text-white">Select Recipt Reserve</h2>
+                            <button onclick="toggleDaysPopout()" type="button" class="cursor-pointer">x</button>
                         </div>
 
                         <form class="grid gap-3 p-4">

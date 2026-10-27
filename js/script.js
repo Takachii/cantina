@@ -222,6 +222,18 @@ function updateDashboard() {
 
 }
 
+document.addEventListener("click", function(event) {
+
+    const popoutMenu = document.getElementById("popout-menu");
+    if (event.target === popoutMenu && !popoutMenu.classList.contains("hidden"))
+        togglePopout();
+
+    const popoutDays = document.getElementById("popout-days");
+    if (event.target === popoutDays && !popoutDays.classList.contains("hidden"))
+        popoutDays.classList.add("hidden");
+
+});
+
 const button_create_recipt = document.getElementById("btn-create-recipt");
 button_create_recipt.addEventListener("click", function(event) {
     
